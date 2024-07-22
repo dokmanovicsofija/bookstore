@@ -21,9 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if (empty($titleError) && empty($yearError)) {
-        //header("Location: books.php");
-    }
+//    if (empty($titleError) && empty($yearError)) {
+//        //header("Location: books.php");
+//    }
 }
 ?>
 <!DOCTYPE html>

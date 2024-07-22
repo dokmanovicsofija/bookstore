@@ -19,9 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $lastName = htmlspecialchars($_POST["last_name"]);
     }
 
-    if ($firstName && $lastName) {
-        //header("Location: authors.php");
-    }
+//    if ($firstName && $lastName) {
+//        //header("Location: authors.php");
+//    }
 }
 ?>
 <!DOCTYPE html>
