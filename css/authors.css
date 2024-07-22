@@ -1,0 +1,115 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width:70%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+}
+
+.author-info a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.author-info a:hover {
+    text-decoration: underline;
+}
+
+.avatar {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.edit, .delete {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.edit:hover, .delete:hover {
+    text-decoration: underline;
+}
+
+.delete {
+    color: red;
+    font-size: 20px;
+}
+
+.edit {
+    font-size: 25px;
+}
+
+.add {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 25px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    margin: 20px 10px auto;
+    text-decoration: none;
+    text-align: center;
+}
+
+.add:hover {
+    background-color: #0056b3;
+}
+
+.book-count {
+    font-weight: bold;
+    color: #007bff;
+    background-color: #e0f7fa;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    padding: 5px 10px;
+    //text-align: center;
+}
