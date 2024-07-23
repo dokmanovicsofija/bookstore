@@ -1,28 +1,25 @@
 <?php
 
-$authors = [
-    ["id" => 1, "name" => "Sofija Dokmanovic"],
-    ["id" => 2, "name" => "Marija Mikic"],
-    ["id" => 3, "name" => "Jovan Jovanovic"],
-    ["id" => 4, "name" => "Nikola Nikolic"],
-];
+session_start();
 
-$books = [
-    ["title" => "Knjiga A", "author_id" => 1],
-    ["title" => "Knjiga B", "author_id" => 1],
-    ["title" => "Knjiga C", "author_id" => 2],
-    ["title" => "Knjiga D", "author_id" => 3],
-    ["title" => "Knjiga E", "author_id" => 4],
-    ["title" => "Knjiga F", "author_id" => 4],
-];
+if (!isset($_SESSION['authors'])) {
+    $_SESSION['authors'] = [
+        ["id" => 1, "firstName" => "Sofija", "lastName" => "Dokmanovic"],
+        ["id" => 2, "firstName" => "Marija", "lastName" => "Mikic"],
+        ["id" => 3, "firstName" => "Jovan", "lastName" => "Jovanovic"],
+        ["id" => 4, "firstName" => "Nikola", "lastName" => "Nikolic"]
+    ];
+}
 
-$bookCount = [];
-foreach ($books as $book) {
-    $authorId = $book['author_id'];
-    if (!isset($bookCount[$authorId])) {
-        $bookCount[$authorId] = 0;
-    }
-    $bookCount[$authorId]++;
+if (!isset($_SESSION['books'])) {
+    $_SESSION['books'] = [
+        ["id" => 1, "title" => "Knjiga A", "year" => 2020, "authorId" => 1],
+        ["id" => 2, "title" => "Knjiga B", "year" => 2021, "authorId" => 1],
+        ["id" => 3, "title" => "Knjiga C", "year" => 2019, "authorId" => 2],
+        ["id" => 4, "title" => "Knjiga D", "year" => 2022, "authorId" => 3],
+        ["id" => 5, "title" => "Knjiga E", "year" => 2023, "authorId" => 4],
+        ["id" => 6, "title" => "Knjiga F", "year" => 2022, "authorId" => 4]
+    ];
 }
 ?>
 <!DOCTYPE html>
@@ -45,21 +42,23 @@ foreach ($books as $book) {
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($authors as $author): ?>
+            <?php foreach ($_SESSION['authors'] as $author): ?>
             <tr>
                 <td>
                     <div class="author-info">
                         <span class="avatar">&#128100;</span>
-                        <a href="authorBooks.php?name=<?php echo urlencode($author['name']); ?>">
-                            <?php echo htmlspecialchars($author['name']); ?>
-                        </a>
+                            <a href="authorBooks.php?id=<?php echo urlencode($author['id']); ?>">
+                                <?php echo htmlspecialchars($author['firstName'] . ' ' . $author['lastName']); ?>
+                            </a>
                     </div>
                 </td>
-                <td><span class="book-count"><?php echo isset($bookCount[$author['id']]) ? $bookCount[$author['id']] : 0; ?></span></td>
-                <td>
-                    <a href="editAuthor.php?id=<?php echo $author['id']; ?>" class="edit">&#9998;</a>
-                    <a href="deleteAuthor.php?id=<?php echo $author['id']; ?>" class="delete">&#10060;</a>
-                </td>
+                    <td><span class="book-count"><?php echo count(array_filter($_SESSION['books'], function($book) use ($author) {
+                            return $book['authorId'] == $author['id'];
+                        })); ?></span></td>
+                    <td>
+                        <a href="editAuthor.php?id=<?php echo $author['id']; ?>" class="edit">&#9998;</a>
+                        <a href="deleteAuthor.php?id=<?php echo $author['id']; ?>" class="delete">&#10060;</a>
+                    </td>
             </tr>
         <?php endforeach; ?>
         </tbody>

@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $firstNameError = $lastNameError = "";
 $firstName = $lastName = "";
 
@@ -19,9 +21,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $lastName = htmlspecialchars($_POST["last_name"]);
     }
 
-//    if ($firstName && $lastName) {
-//        //header("Location: authors.php");
-//    }
+    if ($firstName && $lastName) {
+        $newId = end($_SESSION['authors'])['id'] + 1;
+        $newAuthor = [
+            "id" => $newId,
+            "firstName" => $firstName,
+            "lastName" => $lastName
+        ];
+
+        $_SESSION['authors'][] = $newAuthor;
+
+        header("Location: authors.php");
+        exit();
+   }
 }
 ?>
 <!DOCTYPE html>
