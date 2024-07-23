@@ -1,19 +1,7 @@
 <?php
 session_start();
+
 $authorId = $_GET['id'];
-$author = null;
-
-foreach ($_SESSION['authors'] as $a) {
-    if ($a['id'] == $authorId) {
-        $author = $a;
-        break;
-    }
-}
-
-if (!$author) {
-    header("Location: authors.php");
-    exit();
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
     $_SESSION['authors'] = array_filter($_SESSION['authors'], function($a) use ($authorId) {
@@ -24,6 +12,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
         return $book['authorId'] != $authorId;
     });
 
+    header("Location: authors.php");
+    exit();
+}
+
+$author = null;
+foreach ($_SESSION['authors'] as $a) {
+    if ($a['id'] == $authorId) {
+        $author = $a;
+        break;
+    }
+}
+
+if (!$author) {
     header("Location: authors.php");
     exit();
 }
@@ -54,3 +55,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
 </div>
 </body>
 </html>
+
