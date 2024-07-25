@@ -1,9 +1,13 @@
 <?php
+/**
+ * Autoload required classes and initialize application components.
+ */
 require_once 'autoload.php';
 
-$sessionManager = SessionManager::getInstance(); //dodala instancu
+$sessionManager = SessionManager::getInstance();
 $authorRepository = new AuthorRepositorySession();
-$authorService = new AuthorService($authorRepository);
+$bookRepository = new BookRepositorySession();
+$authorService = new AuthorService($authorRepository, $bookRepository);
 $authorController = new AuthorController($authorService);
 
 $url = isset($_GET['url']) ? $_GET['url'] : 'authors';
@@ -11,9 +15,8 @@ $urlParts = explode('/', $url);
 $page = $urlParts[0];
 $id = isset($urlParts[1]) ? $urlParts[1] : null;
 
-//$bookRepository = new BookRepositorySession();
-//$bookService = new BookService($bookRepository);
-//$bookController = new BookController($bookService);
+$bookService = new BookService($bookRepository);
+$bookController = new BookController($bookService);
 
 $requestUri = $_SERVER['REQUEST_URI'];
 $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -25,35 +28,47 @@ $baseUri = strtok($requestUri, '?');
 //session_destroy();
 //session_start();
 
-switch ($baseUri) {
+switch ($baseUri)
+{
     case '/':
         $authorController->index();
         break;
     case '/createAuthor':
         if ($requestMethod == 'POST') {
             $authorController->store();
-        } else {
-            $authorController->create();
+            break;
         }
+
+        $authorController->create();
         break;
     case '/editAuthor':
-        if (isset($_GET['id'])) {
-            if ($requestMethod == 'POST') {
-                $authorController->update($_GET['id']);
-            } else {
-                $authorController->edit($_GET['id']);
-            }
-        } else {
+        if (!isset($_GET['id'])) {
             header("Location: /");
+            break;
         }
+
+        if ($requestMethod == 'POST') {
+            $authorController->update($_GET['id']);
+            break;
+        }
+
+        $authorController->edit($_GET['id']);
         break;
     case '/deleteAuthor':
-        if (isset($_GET['id'])) {
-            $authorController->delete($_GET['id']);
-        } else {
+        if (!isset($_GET['id'])) {
             header("Location: /authors.php");
+            break;
         }
+
+        $authorController->delete($_GET['id']);
         break;
+    case '/authorBooks':
+        if (isset($_GET['id'])) {
+            $bookController->showBooksByAuthor($_GET['id']);
+            break;
+        }
+        header("Location: /authors.php");
+        exit();
     default:
         http_response_code(404);
         echo "Page not found";

@@ -2,13 +2,33 @@
 
 require_once 'autoload.php';
 
-class AuthorController {
-    private $authorService;
+/**
+ * Class AuthorController
+ *
+ * This class handles the HTTP requests related to authors and interacts with the AuthorService.
+ */
+class AuthorController
+{
+    /**
+     * @var AuthorServiceInterface The service for handling author-related operations.
+     */
+    private AuthorServiceInterface $authorService;
 
-    public function __construct($authorService) {
+    /**
+     * AuthorController constructor.
+     *
+     * @param AuthorServiceInterface $authorService The service for handling author-related operations.
+     */
+    public function __construct(AuthorServiceInterface $authorService)
+    {
         $this->authorService = $authorService;
     }
 
+    /**
+     * Displays the list of all authors.
+     *
+     * @return void
+     */
     public function index(): void
     {
         $authors = $this->authorService->getAllAuthors();
@@ -19,29 +39,50 @@ class AuthorController {
         require './Presentation/Views/authors.php';
     }
 
+    /**
+     * Displays the form for creating a new author.
+     *
+     * @return void
+     */
     public function create(): void
     {
         require './Presentation/Views/createAuthor.php';
     }
 
-    public function store() {
+    /**
+     * Handles the form submission for creating a new author.
+     *
+     * Validates the input data and creates a new author if validation is successful.
+     *
+     * @return void
+     */
+    public function store(): void
+    {
         $firstName = $lastName = "";
         $firstNameError = $lastNameError = "";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($_POST["first_name"])) {
                 $firstNameError = "* This field is required";
-            } elseif (strlen($_POST["first_name"]) > 100) {
+            }
+
+            if (strlen($_POST["first_name"]) > 100) {
                 $firstNameError = "* Maximum length is 100 characters";
-            } else {
+            }
+
+            if (empty($firstNameError)) {
                 $firstName = htmlspecialchars($_POST["first_name"]);
             }
 
             if (empty($_POST["last_name"])) {
                 $lastNameError = "* This field is required";
-            } elseif (strlen($_POST["last_name"]) > 100) {
+            }
+
+            if (strlen($_POST["last_name"]) > 100) {
                 $lastNameError = "* Maximum length is 100 characters";
-            } else {
+            }
+
+            if (empty($lastNameError)) {
                 $lastName = htmlspecialchars($_POST["last_name"]);
             }
 
@@ -50,41 +91,64 @@ class AuthorController {
                 header('Location: /');
                 exit();
             }
-        } else {
-            $firstName = $lastName = "";
         }
 
         require './Presentation/Views/createAuthor.php';
     }
 
-    public function edit($id) {
+    /**
+     * Displays the form for editing an existing author.
+     *
+     * @param int $id The ID of the author to edit.
+     * @return void
+     */
+    public function edit(int $id): void
+    {
         $author = $this->authorService->getAuthorById($id);
         if (!$author) {
             header("Location: /");
             exit();
         }
+
         include __DIR__ . '/../Views/editAuthor.php';
     }
 
-    public function update($id) {
+    /**
+     * Handles the form submission for updating an existing author.
+     *
+     * Validates the input data and updates the author if validation is successful.
+     *
+     * @param int $id The ID of the author to update.
+     * @return void
+     */
+    public function update(int $id): void
+    {
         $firstNameError = $lastNameError = "";
         $firstName = $_POST['first_name'] ?? '';
         $lastName = $_POST['last_name'] ?? '';
-
+        $author = new Author($id, $firstName, $lastName);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($firstName)) {
                 $firstNameError = "* This field is required";
-            } elseif (strlen($firstName) > 100) {
+            }
+
+            if (strlen($firstName) > 100) {
                 $firstNameError = "* Maximum length is 100 characters";
-            } else {
+            }
+
+            if (empty($firstNameError)) {
                 $firstName = htmlspecialchars($firstName);
             }
 
             if (empty($lastName)) {
                 $lastNameError = "* This field is required";
-            } elseif (strlen($lastName) > 100) {
+            }
+
+            if (strlen($lastName) > 100) {
                 $lastNameError = "* Maximum length is 100 characters";
-            } else {
+            }
+
+            if (empty($lastNameError)) {
                 $lastName = htmlspecialchars($lastName);
             }
 
@@ -98,17 +162,28 @@ class AuthorController {
         require './Presentation/Views/editAuthor.php';
     }
 
-    public function delete($id) {
+    /**
+     * Handles the deletion of an author.
+     *
+     * If the request is a POST request, the author is deleted. Otherwise, it displays the deletion confirmation page.
+     *
+     * @param int $id The ID of the author to delete.
+     * @return void
+     */
+    public function delete(int $id): void
+    {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->authorService->deleteAuthor($id);
             header("Location: /");
             exit();
         }
+
         $author = $this->authorService->getAuthorById($id);
         if (!$author) {
             header("Location: /authors.php");
             exit();
         }
+
         include __DIR__ . '/../Views/deleteAuthor.php';
     }
 }

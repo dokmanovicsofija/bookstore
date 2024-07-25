@@ -13,7 +13,8 @@
             <span class="delete-icon">&#9888;</span>
             <h2>Delete Author</h2>
         </div>
-        <p>You are about to delete the author '<?php echo htmlspecialchars($author->getFullName()); ?>'. If you proceed with this action, the application will permanently delete all books related to this author.</p>
+        <p>You are about to delete the author '<?php echo htmlspecialchars($author->getFullName()); ?>'.
+            If you proceed with this action, the application will permanently delete all books related to this author.</p>
         <div class="delete-actions">
             <form method="post" action="/deleteAuthor?id=<?php echo urlencode($author->getId()); ?>">
             <button type="submit" name="delete" class="delete-btn">Delete</button>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,24 +18,26 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($authors as $author): ?>
+                    <?php foreach ($authors as $author): ?>
             <tr>
                 <td>
                     <div class="author-info">
                         <span class="avatar">&#128100;</span>
-                            <a href="authorBooks.php?id=<?php echo urlencode($author->getId()); ?>">
-                                <?php echo htmlspecialchars($author->getFullName()) ?>
-                            </a>
+                        <a href="./authorBooks?id=<?php echo htmlspecialchars($author->getId()); ?>">
+                            <?php echo htmlspecialchars($author->getFullName()) ?>
+                        </a>
+
                     </div>
                 </td>
                     <td>
-                        <span class="book-count"><?php echo htmlspecialchars($author->getBookCount()) ?></span>
+                        <span class="book-count"><?php echo 0 ?></span>
 
                     </td>
                     <td>
                         <a href="./editAuthor?id=<?php echo htmlspecialchars($author->getId()) ?>" class="edit">&#9998;</a>
                         <a href="./deleteAuthor?id=<?php echo htmlspecialchars($author->getId()) ?>" class="delete">&#10060;</a>
                     </td>
+
             </tr>
         <?php endforeach; ?>
         </tbody>
