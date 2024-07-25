@@ -3,20 +3,26 @@
  * Autoload required classes and initialize application components.
  */
 require_once 'autoload.php';
+use Infrastructure\Bootstrap;
+use Infrastructure\ServiceRegistry;
 
-$sessionManager = SessionManager::getInstance();
-$authorRepository = new AuthorRepositorySession();
-$bookRepository = new BookRepositorySession();
-$authorService = new AuthorService($authorRepository, $bookRepository);
-$authorController = new AuthorController($authorService);
+Bootstrap::init();
+
+$authorController = ServiceRegistry::get('authorController');
+$bookController = ServiceRegistry::get('bookController');
+
+//$sessionManager = SessionManager::getInstance();
+//$authorRepository = new AuthorRepositorySession();
+//$bookRepository = new BookRepositorySession();
+//$authorService = new AuthorService($authorRepository);
+//$authorController = new AuthorController($authorService);
+//$bookService = new BookService($bookRepository);
+//$bookController = new BookController($bookService);
 
 $url = isset($_GET['url']) ? $_GET['url'] : 'authors';
 $urlParts = explode('/', $url);
 $page = $urlParts[0];
 $id = isset($urlParts[1]) ? $urlParts[1] : null;
-
-$bookService = new BookService($bookRepository);
-$bookController = new BookController($bookService);
 
 $requestUri = $_SERVER['REQUEST_URI'];
 $requestMethod = $_SERVER['REQUEST_METHOD'];

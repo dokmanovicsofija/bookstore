@@ -33,3 +33,6 @@ require_once './Presentation/Models/Author.php';
 require_once './Presentation/Models/Book.php';
 require_once './Business/Services/AuthorService.php';
 require_once './Business/Services/BookService.php';
+
+require_once  './Infrastructure/ServiceRegistry.php';
+require_once  './Infrastructure/Bootstrap.php';
