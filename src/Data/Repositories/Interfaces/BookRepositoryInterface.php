@@ -29,7 +29,16 @@ interface BookRepositoryInterface
      * @param int $authorId The unique identifier of the author.
      * @return Book[] An array of Book objects belonging to the specified author.
      */
-    public function getByAuthorId(int $authorId): array;
+    public function countBooksByAuthorId(int $authorId): int;
+
+    /**
+     * Retrieves books by author ID.
+     *
+     * @param int $authorId The ID of the author whose books to retrieve.
+     * @return Book[] An array of Book objects.
+     */
+    public function getBooksByAuthorId(int $authorId): array;
+
 
     /**
      * Creates a new book.

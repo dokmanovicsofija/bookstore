@@ -54,16 +54,27 @@ class BookService implements BookServiceInterface
     }
 
     /**
+     * Counts the number of books associated with the specified author ID.
+     *
+     * This method fetches the total number of books from the repository that are linked to the given author ID.
+     *
+     * @param int $authorId The ID of the author whose books are to be counted.
+     * @return int The number of books associated with the specified author.
+     */
+    public function countBooksByAuthorId(int $authorId): int
+    {
+        return $this->bookRepository->countBooksByAuthorId($authorId);
+    }
+
+    /**
      * Retrieves books by author ID.
      *
-     * This method fetches all books from the repository that are associated with the specified author ID.
-     *
      * @param int $authorId The ID of the author whose books to retrieve.
-     * @return Book[] An array of Book objects related to the specified author.
+     * @return Book[] An array of Book objects.
      */
     public function getBooksByAuthorId(int $authorId): array
     {
-        return $this->bookRepository->getByAuthorId($authorId);
+        return $this->bookRepository->getBooksByAuthorId($authorId);
     }
 
     /**

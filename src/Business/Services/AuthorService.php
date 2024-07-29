@@ -4,6 +4,7 @@ namespace src\Business\Services;
 
 use src\Business\Interfaces\AuthorServiceInterface;
 use src\Data\Repositories\Interfaces\AuthorRepositoryInterface;
+use src\Data\Repositories\Interfaces\BookRepositoryInterface;
 use src\Presentation\Models\Author;
 
 require_once 'autoload.php';
@@ -21,13 +22,19 @@ class AuthorService implements AuthorServiceInterface
     private AuthorRepositoryInterface $authorRepository;
 
     /**
+     * @var BookRepositoryInterface
+     */
+    private BookRepositoryInterface $bookRepository;
+
+    /**
      * AuthorService constructor.
      *
      * @param AuthorRepositoryInterface $authorRepository An instance of the repository for managing authors.
      */
-    public function __construct(AuthorRepositoryInterface $authorRepository)
+    public function __construct(AuthorRepositoryInterface $authorRepository, BookRepositoryInterface $bookRepository)
     {
         $this->authorRepository = $authorRepository;
+        $this->bookRepository = $bookRepository;
     }
 
     /**
@@ -88,5 +95,10 @@ class AuthorService implements AuthorServiceInterface
     public function deleteAuthor(int $id): void
     {
         $this->authorRepository->delete($id);
+    }
+
+    public function getBookCountByAuthorId(int $authorId): int
+    {
+        return $this->bookRepository->countBooksByAuthorId($authorId);
     }
 }

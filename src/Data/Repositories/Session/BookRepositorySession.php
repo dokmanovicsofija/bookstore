@@ -21,7 +21,7 @@ class BookRepositorySession implements BookRepositoryInterface
     /**
      * @var SessionManager The session manager instance.
      */
-    private SessionManager $session;
+    private SessionManager $sessionManager;
 
     /**
      * BookRepositorySession constructor.
@@ -30,22 +30,21 @@ class BookRepositorySession implements BookRepositoryInterface
      */
     public function __construct()
     {
+        $this->sessionManager = SessionManager::getInstance();
+        $books = $this->sessionManager->get('books');
 
-        $this->session = SessionManager::getInstance();
-        $books = $this->session->get('books');
-
-        if (!isset($_SESSION['books'])) {
-            $_SESSION['books'] = [
+        if (!$books) {
+            $defaultBooks = [
                 (new Book(1, 'Book Title 1', 2021, 1))->toArray(),
                 (new Book(2, 'Book Title 2', 2020, 1))->toArray(),
                 (new Book(3, 'Book Title 3', 2022, 1))->toArray(),
                 (new Book(4, 'Book Title 4', 2023, 1))->toArray(),
             ];
-            $books = $this->session->get('books');
-            $this->session->set('books', $books);
+            $this->sessionManager->set('books', $defaultBooks);
+            $books = $defaultBooks;
         }
 
-        $this->books = Book::fromBatch($this->session->get('books'));
+        $this->books = Book::fromBatch($books);
     }
 
     /**
@@ -76,12 +75,25 @@ class BookRepositorySession implements BookRepositoryInterface
     }
 
     /**
+     * Counts the number of books by author ID.
+     *
+     * @param int $authorId The ID of the author whose books to count.
+     * @return int The number of books for the given author.
+     */
+    public function countBooksByAuthorId(int $authorId): int
+    {
+        return count(array_filter($this->books, function ($book) use ($authorId) {
+            return $book->getAuthorId() == $authorId;
+        }));
+    }
+
+    /**
      * Retrieves books by author ID.
      *
      * @param int $authorId The ID of the author whose books to retrieve.
      * @return Book[] An array of Book objects.
      */
-    public function getByAuthorId(int $authorId): array
+    public function getBooksByAuthorId(int $authorId): array
     {
         return array_filter($this->books, function ($book) use ($authorId) {
             return $book->getAuthorId() == $authorId;

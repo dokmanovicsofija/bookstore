@@ -4,6 +4,8 @@ namespace src\Presentation\Controller;
 
 use src\Business\Interfaces\BookServiceInterface;
 use src\Business\Services\BookService;
+use src\Http\HttpRequest;
+use src\Http\HttpResponse;
 
 /**
  * Class BookController
@@ -28,10 +30,23 @@ class BookController
         $this->bookService = $bookService;
     }
 
-    public function showBooksByAuthor(int $authorId): void
+    /**
+     * Displays the list of books associated with the specified author ID.
+     *
+     * This method retrieves all books from the book service that are linked to the given author ID.
+     * It then generates the HTML content to display these books using the `authorBooks.php` view.
+     *
+     * @param HttpRequest $request The HTTP request object containing information about the current request.
+     * @param int $authorId The ID of the author whose books are to be displayed.
+     * @return HttpResponse An HTTP response containing the HTML content for displaying the books.
+     */
+    public function showBooksByAuthor(HttpRequest $request, int $authorId): HttpResponse
     {
         $books = $this->bookService->getBooksByAuthorId($authorId);
-        require './Presentation/Views/authorBooks.php';
+        ob_start();
+        include __DIR__ . '/../Views/authorBooks.php';
+        $content = ob_get_clean();
+        return new HttpResponse(200, $content);
     }
 
     /**

@@ -16,11 +16,13 @@ class Author extends AbstractDTO
      * @param int $id The unique identifier for the author.
      * @param string $firstName The first name of the author (optional, default is an empty string).
      * @param string $lastName The last name of the author (optional, default is an empty string).
-     */
+     * @param int $bookCount The number of books written by the author (optional, default is 0).
+ */
     public function __construct(
         private int  $id,
         private string $firstName = '',
         private string $lastName = '',
+        private int $bookCount = 0
     )
     {}
 
@@ -64,6 +66,15 @@ class Author extends AbstractDTO
         return $this->firstName . ' ' . $this->lastName;
     }
 
+    /**
+     * Gets the number of books written by the author.
+     *
+     * @return int The number of books written by the author.
+     */
+    public function getBookCount(): int
+    {
+        return $this->bookCount;
+    }
 
     /**
      * Sets the unique identifier for the author.
@@ -99,6 +110,17 @@ class Author extends AbstractDTO
     }
 
     /**
+     * Sets the number of books written by the author.
+     *
+     * @param int $bookCount The number of books written by the author.
+     * @return void
+     */
+    public function setBookCount(int $bookCount): void
+    {
+        $this->bookCount = $bookCount;
+    }
+
+    /**
      * Converts the author object to an associative array.
      *
      * @return array An associative array representation of the author, including 'id', 'firstName', and 'lastName'.
@@ -109,6 +131,7 @@ class Author extends AbstractDTO
             'id' => $this->id,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
+            'bookCount' => $this->bookCount,
         ];
     }
 

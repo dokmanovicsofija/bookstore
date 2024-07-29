@@ -35,7 +35,7 @@ class Bootstrap
         $bookRepository = new BookRepositorySession();
         ServiceRegistry::register(BookRepositorySession::class, $bookRepository);
 
-        $authorService = new AuthorService(ServiceRegistry::get(AuthorRepositorySession::class));
+        $authorService = new AuthorService(ServiceRegistry::get(AuthorRepositorySession::class), ServiceRegistry::get(BookRepositorySession::class));
         ServiceRegistry::register(AuthorService::class, $authorService);
 
         $bookService = new BookService(ServiceRegistry::get(BookRepositorySession::class));

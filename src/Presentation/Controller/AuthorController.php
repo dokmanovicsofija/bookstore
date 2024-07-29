@@ -31,6 +31,10 @@ class AuthorController
     public function index(HttpRequest $request): HttpResponse
     {
         $authors = $this->authorService->getAllAuthors();
+        foreach ($authors as $author) {
+            $bookCount = $this->authorService->getBookCountByAuthorId($author->getId());
+            $author->setBookCount($bookCount);
+        }
         ob_start();
         include __DIR__ . '/../Views/authors.php';
         $content = ob_get_clean();

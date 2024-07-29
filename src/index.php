@@ -53,7 +53,8 @@ switch ($baseUri)
         $response = $authorController->delete($request, $id);
         break;
     case '/authorBooks':
-        $response = $bookController->showBooksByAuthor($request->getQueryParams()['id']);
+        $id = (int) $request->getQueryParams()['id'] ?? 0;
+        $response = $bookController->showBooksByAuthor($request, $id);
         break;
     default:
         $response = new HttpResponse(404, 'Page not found');

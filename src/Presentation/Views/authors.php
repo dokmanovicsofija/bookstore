@@ -30,7 +30,7 @@
                     </div>
                 </td>
                     <td>
-                        <span class="book-count"><?php echo 0 ?></span>
+                        <span class="book-count"><?php echo htmlspecialchars($author->getBookCount()); ?></span>
 
                     </td>
                     <td>
