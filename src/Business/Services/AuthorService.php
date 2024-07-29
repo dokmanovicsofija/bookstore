@@ -17,25 +17,11 @@ require_once 'autoload.php';
 class AuthorService implements AuthorServiceInterface
 {
     /**
-     * @var AuthorRepositoryInterface
-     */
-    private AuthorRepositoryInterface $authorRepository;
-
-    /**
-     * @var BookRepositoryInterface
-     */
-    private BookRepositoryInterface $bookRepository;
-
-    /**
      * AuthorService constructor.
      *
      * @param AuthorRepositoryInterface $authorRepository An instance of the repository for managing authors.
      */
-    public function __construct(AuthorRepositoryInterface $authorRepository, BookRepositoryInterface $bookRepository)
-    {
-        $this->authorRepository = $authorRepository;
-        $this->bookRepository = $bookRepository;
-    }
+    public function __construct(private AuthorRepositoryInterface $authorRepository, private BookRepositoryInterface $bookRepository){}
 
     /**
      * Retrieves all authors from the repository.

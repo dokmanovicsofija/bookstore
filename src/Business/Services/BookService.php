@@ -14,19 +14,11 @@ use src\Presentation\Models\Book;
 class BookService implements BookServiceInterface
 {
     /**
-     * @var BookRepositoryInterface The repository instance for managing books.
-     */
-    private BookRepositoryInterface $bookRepository;
-
-    /**
      * BookService constructor.
      *
      * @param BookRepositoryInterface $bookRepository The repository instance to be used by the service.
      */
-    public function __construct(BookRepositoryInterface $bookRepository)
-    {
-        $this->bookRepository = $bookRepository;
-    }
+    public function __construct(private BookRepositoryInterface $bookRepository){}
 
     /**
      * Retrieves all books.

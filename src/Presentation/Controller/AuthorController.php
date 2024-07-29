@@ -19,8 +19,7 @@ class AuthorController
      *
      * @param AuthorServiceInterface $authorService The service for handling author-related operations.
      */
-    public function __construct(private AuthorServiceInterface $authorService)
-    {}
+    public function __construct(private AuthorServiceInterface $authorService) {}
 
     /**
      * Handles the request to display the list of authors.

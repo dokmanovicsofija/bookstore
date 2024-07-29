@@ -16,19 +16,11 @@ use src\Http\HttpResponse;
 class BookController
 {
     /**
-     * @var BookService The service instance for managing books.
-     */
-    private BookService $bookService;
-
-    /**
      * BookController constructor.
      *
      * @param BookService $bookService The service instance to be used by the controller.
      */
-    public function __construct(BookServiceInterface $bookService)
-    {
-        $this->bookService = $bookService;
-    }
+    public function __construct(private BookServiceInterface $bookService) {}
 
     /**
      * Displays the list of books associated with the specified author ID.
