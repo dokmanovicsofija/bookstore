@@ -38,6 +38,7 @@ class AuthorRepositorySession implements AuthorRepositoryInterface
         if (!$authors) {
             $defaultAuthors = [
                 (new Author(1, 'Sofija', 'Dokmanovic'))->toArray(),
+                (new Author(2, 'Ana', 'Ivanovic'))->toArray(),
             ];
             $this->sessionManager->set('authors', $defaultAuthors);
             $authors = $defaultAuthors;

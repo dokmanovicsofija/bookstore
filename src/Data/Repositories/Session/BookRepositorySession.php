@@ -36,7 +36,7 @@ class BookRepositorySession implements BookRepositoryInterface
         if (!$books) {
             $defaultBooks = [
                 (new Book(1, 'Book Title 1', 2021, 1))->toArray(),
-                (new Book(2, 'Book Title 2', 2020, 1))->toArray(),
+                (new Book(2, 'Book Title 2', 2020, 2))->toArray(),
                 (new Book(3, 'Book Title 3', 2022, 1))->toArray(),
                 (new Book(4, 'Book Title 4', 2023, 1))->toArray(),
             ];

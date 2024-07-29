@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Http;
+namespace src\Infrastructure\Http;
 
 /**
  * Class HttpResponse

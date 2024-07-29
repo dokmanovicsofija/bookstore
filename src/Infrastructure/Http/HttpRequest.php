@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Http;
+namespace src\Infrastructure\Http;
 
 use src\Wrapper\GlobalWrapper;
 

@@ -49,5 +49,5 @@ abstract class SingletonAbstract
      *
      * This method is private to prevent unserialization of the singleton instance.
      */
-    private function __wakeup(){}
+    public function __wakeup(){}
 }

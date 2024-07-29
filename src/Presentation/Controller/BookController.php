@@ -4,8 +4,8 @@ namespace src\Presentation\Controller;
 
 use src\Business\Interfaces\BookServiceInterface;
 use src\Business\Services\BookService;
-use src\Http\HttpRequest;
-use src\Http\HttpResponse;
+use src\Infrastructure\Http\HttpRequest;
+use src\Infrastructure\Http\HttpResponse;
 
 /**
  * Class BookController

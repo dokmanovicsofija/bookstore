@@ -8,8 +8,8 @@ use src\Infrastructure\Bootstrap;
 use src\Infrastructure\ServiceRegistry;
 use src\Presentation\Controller\AuthorController;
 use src\Presentation\Controller\BookController;
-use src\Http\HttpRequest;
-use src\Http\HttpResponse;
+use src\Infrastructure\Http\HttpRequest;
+use src\Infrastructure\Http\HttpResponse;
 
 Bootstrap::init();
 
