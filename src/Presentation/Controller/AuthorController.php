@@ -15,19 +15,12 @@ use src\Presentation\Models\Author;
 class AuthorController
 {
     /**
-     * @var AuthorServiceInterface The service for handling author-related operations.
-     */
-    private AuthorServiceInterface $authorService;
-
-    /**
      * AuthorController constructor.
      *
      * @param AuthorServiceInterface $authorService The service for handling author-related operations.
      */
-    public function __construct(AuthorServiceInterface $authorService)
-    {
-        $this->authorService = $authorService;
-    }
+    public function __construct(private AuthorServiceInterface $authorService)
+    {}
 
     /**
      * Handles the request to display the list of authors.

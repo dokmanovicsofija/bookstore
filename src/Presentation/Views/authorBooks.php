@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books by Author</title>
-    <link rel="stylesheet" href="./Presentation/Public/css/authorBooks.css">
+    <link rel="stylesheet" href="/src/Presentation/Public/css/authorBooks.css">
 </head>
 <body>
 <div class="container">

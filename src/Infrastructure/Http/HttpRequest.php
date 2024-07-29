@@ -2,6 +2,8 @@
 
 namespace src\Http;
 
+use src\Wrapper\GlobalWrapper;
+
 /**
  * Class HttpRequest
  *
@@ -33,15 +35,16 @@ class HttpRequest
     /**
      * HttpRequest constructor.
      *
-     * Initializes the HttpRequest object by retrieving the request method, URI, query parameters,
-     * and POST data from the global `$_SERVER`, `$_GET`, and `$_POST` superglobals.
-     */
+     * Initializes the HttpRequest object by retrieving and setting the HTTP request method,
+     * * URI, query parameters, and POST data. These values are fetched from the global `$_SERVER`,
+     * * `$_GET`, and `$_POST` super globals using the `GlobalWrapper` class.
+ */
     public function __construct()
     {
-        $this->method = $_SERVER['REQUEST_METHOD'];
-        $this->uri = strtok($_SERVER['REQUEST_URI'], '?');
-        $this->queryParams = $_GET;
-        $this->postData = $_POST;
+        $this->method = GlobalWrapper::getInstanceForType('server')->get('REQUEST_METHOD');
+        $this->uri = strtok(GlobalWrapper::getInstanceForType('server')->get('REQUEST_URI'), '?');
+        $this->queryParams = GlobalWrapper::getInstanceForType('get')->getAll() ?? [];
+        $this->postData = GlobalWrapper::getInstanceForType('post')->getAll() ?? [];
     }
 
     /**

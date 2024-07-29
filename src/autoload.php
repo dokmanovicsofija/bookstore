@@ -9,6 +9,7 @@
  * required classes and interfaces.
  */
 
+require_once  './Wrapper/GlobalWrapper.php';
 // Singleton classes
 require_once  './Infrastructure/SessionManager.php';
 require_once  './Infrastructure/Http/HttpRequest.php';

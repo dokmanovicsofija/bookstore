@@ -21,28 +21,29 @@ class AuthorRepositorySession implements AuthorRepositoryInterface
     /**
      * @var SessionManager The session manager instance.
      */
-    private SessionManager $session;
+    private SessionManager $sessionManager;
 
     /**
      * AuthorRepositorySession constructor.
      *
-     * Initializes the session and loads authors from the session.
+     * Initializes the object by setting up the session manager and loading
+     * * the authors from the session. If no authors are found in the session,
+     * * it initializes the session with a default author.
      */
     public function __construct()
     {
-        $this->session = SessionManager::getInstance();
-        $authors = $this->session->get('authors');
+        $this->sessionManager = SessionManager::getInstance();
+        $authors = $this->sessionManager->get('authors');
 
-
-        if (!isset($_SESSION['authors'])) {
-            $_SESSION['authors'] = [
+        if (!$authors) {
+            $defaultAuthors = [
                 (new Author(1, 'Sofija', 'Dokmanovic'))->toArray(),
             ];
-            $authors = $this->session->get('authors');
-            $this->session->set('authors', $authors);
-
+            $this->sessionManager->set('authors', $defaultAuthors);
+            $authors = $defaultAuthors;
         }
-        $this->authors = Author::fromBatch($this->session->get('authors'));
+
+        $this->authors = Author::fromBatch($authors);
     }
 
     /**
@@ -133,10 +134,12 @@ class AuthorRepositorySession implements AuthorRepositoryInterface
      */
     private function updateSession(): void
     {
-        $_SESSION['authors'] = [];
+        $authorsArray = [];
         foreach ($this->authors as $author) {
-            $_SESSION['authors'][] = $author->toArray();
+            $authorsArray[] = $author->toArray();
         }
+
+        $this->sessionManager->set('authors', $authorsArray);
     }
 
     /**

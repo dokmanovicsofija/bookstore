@@ -3,6 +3,7 @@
 namespace src\Infrastructure;
 
 use src\Infrastructure\SingletonAbstract;
+use src\Wrapper\GlobalWrapper;
 
 /**
  * Class SessionManager
@@ -19,6 +20,8 @@ class SessionManager extends SingletonAbstract
      */
     private static ?self $instance = null;
 
+    private GlobalWrapper $sessionWrapper;
+
     /**
      * SessionManager constructor.
      *
@@ -28,9 +31,12 @@ class SessionManager extends SingletonAbstract
     protected function __construct()
     {
         parent::__construct();
+
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+
+        $this->sessionWrapper = GlobalWrapper::getInstanceForType('session');
     }
 
     /**
@@ -48,7 +54,7 @@ class SessionManager extends SingletonAbstract
      */
     public function set(string $key, $value): void
     {
-        $_SESSION[$key] = $value;
+        $this->sessionWrapper->set($key, $value);
     }
 
     /**
@@ -65,7 +71,7 @@ class SessionManager extends SingletonAbstract
      */
     public function get(string $key): mixed
     {
-        return $_SESSION[$key] ?? null;
+        return $this->sessionWrapper->get($key);
     }
 
     /**
@@ -78,7 +84,7 @@ class SessionManager extends SingletonAbstract
      */
     public function remove(string $key): void
     {
-        unset($_SESSION[$key]);
+        $this->sessionWrapper->remove($key);
     }
 
     /**
@@ -90,7 +96,6 @@ class SessionManager extends SingletonAbstract
      */
     public function destroy(): void
     {
-        session_destroy();
-        $_SESSION = [];
+        $this->sessionWrapper->destroySession();
     }
 }
