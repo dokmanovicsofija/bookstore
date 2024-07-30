@@ -57,6 +57,11 @@ class HttpRequest
         return $this->method;
     }
 
+    public function getBody(): string
+    {
+        return file_get_contents('php://input');
+    }
+
     /**
      * Gets the URI of the request without the query string.
      *

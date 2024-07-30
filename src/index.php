@@ -56,9 +56,28 @@ switch ($baseUri)
         $id = (int) $request->getQueryParams()['id'] ?? 0;
         $response = $bookController->showBooksByAuthor($request, $id);
         break;
-    default:
-        $response = new HttpResponse(404, 'Page not found');
+    case '/books':
+        if ($request->getMethod() === 'GET') {
+            $id = (int) $request->getQueryParams()['authorId'] ?? 0;
+            $response = $bookController->getBooksByAuthor($request, $id);
+        } elseif ($request->getMethod() === 'POST') {
+            $id = (int) $request->getQueryParams()['authorId'] ?? 0;
+            $response = $bookController->addBook($request, $id);
+        }
         break;
+    case '/books/delete':
+        if ($request->getMethod() === 'DELETE') {
+            $bookId = (int) $request->getQueryParams()['bookId'];
+            $response = $bookController->deleteBook($request, $bookId);
+        }
+        break;
+    default:
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Page not found']);
+        http_response_code(404);
+        exit();
+//        $response = new HttpResponse(404, 'Page not found');
+//        break;
 }
 
 $response -> send();

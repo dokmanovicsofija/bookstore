@@ -135,8 +135,12 @@ class AuthorController
     public function delete(HttpRequest $request, int $id): HttpResponse
     {
         if ($request->getMethod() === 'POST') {
-            $this->authorService->deleteAuthor($id);
-            return new HttpResponse(302, '', ['Location' => '/src']);
+            try {
+                $this->authorService->deleteAuthor($id);
+                return new HttpResponse(302, '', ['Location' => '/src']);
+            } catch (\Exception $e) {
+                return new HttpResponse(500, 'Internal Server Error');
+            }
         }
 
         $author = $this->authorService->getAuthorById($id);

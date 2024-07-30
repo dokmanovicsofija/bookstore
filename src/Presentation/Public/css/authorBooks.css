@@ -1,31 +1,12 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
+/* Container styling */
 .container {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 70%;
-    max-width: 1000px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
+/* Table styling */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -33,54 +14,77 @@ table {
 }
 
 th, td {
-    padding: 12px;
+    padding: 10px;
+    border: 1px solid #ddd;
     text-align: left;
-    border-bottom: 1px solid #ddd;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #f4f4f4;
+    color: #555;
 }
 
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Action links styling */
 .edit, .delete {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
     text-decoration: none;
-    margin: 0 5px;
-    font-size: 20px;
-}
-
-.edit:hover, .delete:hover {
-    text-decoration: underline;
-}
-
-.delete {
-    color: red;
+    font-size: 1.2em;
+    margin-right: 10px;
 }
 
 .edit {
     color: #007bff;
 }
 
+.delete-btn {
+    color: #dc3545;
+}
+
+.edit:hover, .delete:hover {
+    opacity: 0.7;
+}
+
+/* Add button styling */
 .add {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
     background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px;
+    color: white;
     border-radius: 50%;
-    font-size: 25px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 45px;
-    height: 45px;
-    margin: 20px 10px auto;
-    text-decoration: none;
     text-align: center;
+    line-height: 40px;
+    font-size: 1.5em;
+    text-decoration: none;
+    margin-top: 20px;
 }
 
 .add:hover {
     background-color: #0056b3;
+}
+
+/* Add book form styling */
+#add-book-section {
+    margin-top: 20px;
+}
+
+#add-book-form input {
+    display: block;
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 1em;
+}
+
+#add-book-form button {
+    padding: 10px 20px;
+    font-size: 1em;
+    margin-right: 10px;
 }

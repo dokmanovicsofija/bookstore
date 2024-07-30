@@ -48,16 +48,7 @@ interface BookRepositoryInterface
      * @param int $authorId The ID of the author of the new book.
      * @return Book The created Book object.
      */
-    public function create(string $title, int $year, int $authorId): Book;
-
-    /**
-     * Updates an existing book.
-     *
-     * @param Book $book The Book object with updated information.
-     *
-     * @return void
-     */
-    public function update(Book $book): void;
+    public function addBook(string $title, int $year, int $authorId): Book;
 
     /**
      * Deletes a book based on its ID.
@@ -66,5 +57,5 @@ interface BookRepositoryInterface
      *
      * @return void
      */
-    public function delete(int $id): void;
+    public function deleteBook(int $id): void;
 }

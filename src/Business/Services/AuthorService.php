@@ -80,7 +80,10 @@ class AuthorService implements AuthorServiceInterface
      */
     public function deleteAuthor(int $id): void
     {
+        $this->bookRepository->deleteBooksByAuthorId($id);
+
         $this->authorRepository->delete($id);
+
     }
 
     public function getBookCountByAuthorId(int $authorId): int

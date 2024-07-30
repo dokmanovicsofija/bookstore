@@ -32,95 +32,57 @@ class BookController
      * @param int $authorId The ID of the author whose books are to be displayed.
      * @return HttpResponse An HTTP response containing the HTML content for displaying the books.
      */
+
     public function showBooksByAuthor(HttpRequest $request, int $authorId): HttpResponse
     {
-        $books = $this->bookService->getBooksByAuthorId($authorId);
         ob_start();
         include __DIR__ . '/../Views/authorBooks.php';
         $content = ob_get_clean();
         return new HttpResponse(200, $content);
     }
 
-    /**
-     * Displays the list of books.
-     */
-    public function index(): void
-    {
-        $books = $this->bookService->getAllBooks();
-        require './Presentation/Views/books.php';
-    }
-
-    public function show(int $id): void
-    {
-        $book = $this->bookService->getBookById($id);
-        require './Presentation/Views/book.php';
-    }
-
-//    public function create(): void
-//    {
-//        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//            $title = $_POST['title'] ?? '';
-//            $year = $_POST['year'] ?? '';
-//            $authorId = $_POST['authorId'] ?? '';
-//
-//            if ($title && $year && $authorId) {
-//                $book = new Book(null, $title, $year, $authorId);
-//                $this->bookService->createBook($book);
-//                header('Location: /books');
-//                exit;
-//            }
-//        }
-//        require './Presentation/Views/createBook.php';
-//    }
-    /**
-     * Handles the form submission to create a new book.
-     */
-    public function store(): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $title = trim($_POST['title'] ?? '');
-            $year = (int)($_POST['year'] ?? 0);
-            $authorId = (int)($_POST['authorId'] ?? 0);
-
-            if ($title !== '' && $year > 0 && $authorId > 0) {
-                $newBook = $this->bookService->createBook($title, $year, $authorId);
-                header('Location: /bookList.php'); // Redirekcija na listu knjiga
-                exit();
-            }
-
-            // Ako dođe ovde, podaci nisu validni
-            $error = 'All fields are required and must be valid.';
-            include 'views/createBook.php'; // Ponovo prikazujemo formu sa greškom
-        }
-    }
-
-
-    public function edit(int $id): void
-    {
-        $book = $this->bookService->getBookById($id);
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $title = $_POST['title'] ?? '';
-            $year = $_POST['year'] ?? '';
-            $authorId = $_POST['authorId'] ?? '';
-
-            if ($title && $year && $authorId) {
-                $book->setTitle($title);
-                $book->setYear($year);
-                $book->setAuthorId($authorId);
-                $this->bookService->updateBook($book);
-                header('Location: /books');
-                exit;
-            }
+    public function getBooksByAuthor($request, $authorId) {
+        $books = $this->bookService->getBooksByAuthorId($authorId);
+        $bookList = [];
+        foreach ($books as $book) {
+            $bookList[] = [
+                'id' => $book->getId(),
+                'title' => $book->getTitle(),
+                'year' => $book->getYear()
+            ];
         }
 
-        require './Presentation/Views/editBook.php';
+        return $this->jsonResponse(['books' => $bookList]);
     }
 
-    public function delete(int $id): void
+    public function addBook(HttpRequest $request, int $authorId): HttpResponse
     {
-        $this->bookService->deleteBook($id);
-        header('Location: /books');
-        exit;
+        $data = json_decode($request->getBody(), true);
+        if (empty($data['title'])) {
+            return $this->jsonResponse(['error' => 'Book title cannot be empty.'], 400);
+        }
+        $title = $data['title'];
+        $year = (int) $data['year'];
+        if ($year <= 0) {
+            return $this->jsonResponse(['error' => 'Please enter a valid year.'], 400);
+        }
+        $book = $this->bookService->createBook($title, $year, $authorId);
+        $bookArray = $book->toArray();
+        return $this->jsonResponse($bookArray, 201);
     }
+
+    public function deleteBook(HttpRequest $request, int $bookId): HttpResponse
+    {
+        $this->bookService->deleteBook($bookId);
+        return $this->jsonResponse('', 204);
+    }
+
+    private function jsonResponse($data, int $statusCode = 200): HttpResponse {
+        $jsonResponse = json_encode($data);
+        error_log('JSON Response: ' . $jsonResponse);
+
+        header('Content-Type: application/json');
+        return new HttpResponse($statusCode, $jsonResponse);
+    }
+
 }

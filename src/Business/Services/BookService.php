@@ -64,8 +64,7 @@ class BookService implements BookServiceInterface
      * @param int $authorId The ID of the author whose books to retrieve.
      * @return Book[] An array of Book objects.
      */
-    public function getBooksByAuthorId(int $authorId): array
-    {
+    public function getBooksByAuthorId(int $authorId): array {
         return $this->bookRepository->getBooksByAuthorId($authorId);
     }
 
@@ -79,22 +78,9 @@ class BookService implements BookServiceInterface
      * @param int $authorId The ID of the author of the book.
      * @return void
      */
-    public function createBook(string $title, int $year, int $authorId): void
+    public function createBook(string $title, int $year, int $authorId): Book
     {
-        $this->bookRepository->create($title, $year, $authorId);
-    }
-
-    /**
-     * Updates an existing book.
-     *
-     * This method updates the details of an existing book in the repository.
-     *
-     * @param Book $book The Book object with updated details.
-     * @return void
-     */
-    public function updateBook(Book $book): void
-    {
-        $this->bookRepository->update($book);
+        return $this->bookRepository->addBook($title, $year, $authorId);
     }
 
     /**
@@ -107,6 +93,6 @@ class BookService implements BookServiceInterface
      */
     public function deleteBook(int $id): void
     {
-        $this->bookRepository->delete($id);
+        $this->bookRepository->deleteBook($id);
     }
 }

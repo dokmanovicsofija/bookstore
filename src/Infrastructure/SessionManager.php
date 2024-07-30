@@ -2,7 +2,7 @@
 
 namespace src\Infrastructure;
 
-use src\Infrastructure\SingletonAbstract;
+use src\Infrastructure\Utility\SingletonAbstract;
 use src\Wrapper\GlobalWrapper;
 
 /**

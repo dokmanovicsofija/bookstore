@@ -4,6 +4,7 @@ namespace src\Data\Repositories\Session;
 
 use src\Data\Repositories\Interfaces\BookRepositoryInterface;
 use src\Infrastructure\SessionManager;
+use src\Presentation\Models\Author;
 use src\Presentation\Models\Book;
 
 /**
@@ -93,58 +94,26 @@ class BookRepositorySession implements BookRepositoryInterface
      * @param int $authorId The ID of the author whose books to retrieve.
      * @return Book[] An array of Book objects.
      */
-    public function getBooksByAuthorId(int $authorId): array
-    {
+    public function getBooksByAuthorId(int $authorId): array {
         return array_filter($this->books, function ($book) use ($authorId) {
             return $book->getAuthorId() == $authorId;
         });
     }
 
-    /**
-     * Creates a new book.
-     *
-     * @param string $title The title of the new book.
-     * @param int $year The publication year of the new book.
-     * @param int $authorId The ID of the author of the new book.
-     * @return Book The created Book object.
-     */
-    public function create(string $title, int $year, int $authorId): Book
+    public function addBook(string $title, int $year, int $authorId): Book
     {
-        $id = $this->getNextId();
+        $id = $this->getNextIdBook();
         $newBook = new Book($id, $title, $year, $authorId);
         $this->books[] = $newBook;
-        $this->updateSession();
+        $this->updateSessionBook();
 
         return $newBook;
     }
 
-    /**
-     * Updates an existing book.
-     *
-     * @param Book $book The Book object with updated information.
-     * @return void
-     */
-    public function update(Book $book): void
+    public function deleteBook(int $bookId): void
     {
-        foreach ($this->books as $key => $existingBook) {
-            if ($existingBook->getId() == $book->getId()) {
-                $this->books[$key] = $book;
-                $this->updateSession();
-                return;
-            }
-        }
-    }
-
-    /**
-     * Deletes a book by its ID.
-     *
-     * @param int $id The ID of the book to delete.
-     * @return void
-     */
-    public function delete(int $id): void
-    {
-        $this->books = array_filter($this->books, function ($book) use ($id) {
-            return $book->getId() != $id;
+        $this->books = array_filter($this->books, function ($book) use ($bookId) {
+            return $book->getId() != $bookId;
         });
 
         $this->books = array_values($this->books);
@@ -185,5 +154,65 @@ class BookRepositorySession implements BookRepositoryInterface
         }
 
         return $lastId + 1;
+    }
+
+    /**
+     * Gets the next available ID for a new book.
+     *
+     * This function calculates the next available ID by iterating through the existing books
+     * and finding the highest current ID. It then returns the highest ID plus one, ensuring
+     * that each new book will receive a unique ID.
+     *
+     * @return int The next available ID for a new book.
+     */
+    private function getNextIdBook(): int
+    {
+        $lastId = 0;
+
+        foreach ($this->books as $book) {
+            if ($book->getId() > $lastId) {
+                $lastId = $book->getId();
+            }
+        }
+
+        return $lastId + 1;
+    }
+
+    /**
+     * Deletes all books associated with the specified author ID from the session.
+     *
+     * This method filters out books from the internal collection that have the
+     * specified author ID. After removing the books, the session is updated
+     * to reflect the changes. This ensures that any books linked to the author
+     * being deleted are also removed, maintaining data consistency.
+     *
+     * @param int $authorId The ID of the author whose books are to be deleted.
+     *
+     * @return void
+     */
+    public function deleteBooksByAuthorId(int $authorId): void
+    {
+        $this->books = array_filter($this->books, function (Book $book) use ($authorId) {
+            return $book->getAuthorId() !== $authorId;
+        });
+
+        $this->sessionManager->set('books', array_map(function (Book $book) {
+            return $book->toArray();
+        }, $this->books));
+    }
+
+    /**
+     * Updates the session with the current list of books.
+     *
+     * @return void
+     */
+    private function updateSessionBook(): void
+    {
+        $booksArray = [];
+        foreach ($this->books as $book) {
+            $booksArray[] = $book->toArray();
+        }
+
+        $this->sessionManager->set('books', $booksArray);
     }
 }

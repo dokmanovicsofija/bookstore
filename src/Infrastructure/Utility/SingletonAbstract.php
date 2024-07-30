@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Infrastructure;
+namespace src\Infrastructure\Utility;
 
 /**
  * Abstract SingletonAbstract class.

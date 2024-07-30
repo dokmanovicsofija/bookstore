@@ -46,18 +46,9 @@ interface BookServiceInterface
      * @param int $year The publication year of the book.
      * @param int $authorId The ID of the author who wrote the book.
      *
-     * @return void
+     * @return Book
      */
-    public function createBook(string $title, int $year, int $authorId): void;
-
-    /**
-     * Updates an existing book.
-     *
-     * @param Book $book The Book object with updated information.
-     *
-     * @return void
-     */
-    public function updateBook(Book $book): void;
+    public function createBook(string $title, int $year, int $authorId): Book;
 
     /**
      * Deletes a book based on its ID.

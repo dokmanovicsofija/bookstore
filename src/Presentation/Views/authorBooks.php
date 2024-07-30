@@ -9,27 +9,26 @@
 <body>
 <div class="container">
     <h1>Books by Author</h1>
-    <table>
-        <thead>
-        <tr>
-            <th>Book</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($books as $book): ?>
+    <input type="hidden" id="author-id" value="<?php echo htmlspecialchars($authorId); ?>">
+    <div id="books-section">
+        <table id="books-table">
+            <thead>
             <tr>
-                <td><?php echo htmlspecialchars($book->getTitle()) . ' (' . htmlspecialchars($book->getYear()) . ')'; ?></td>
-                <td>
-                    <a href="editBook.php?id=<?php echo $book->getId(); ?>" class="edit">&#9998;</a>
-                    <a href="deleteBook.php?id=<?php echo $book->getId(); ?>" class="delete">&#10060;</a>
-                </td>
+                <th>Book</th>
+                <th>Actions</th>
             </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-    <a href="createBook.php?authorId=<?php echo $authorId; ?>" class="add">+</a>
+            </thead>
+            <tbody>
+            <!-- Books will be added here dynamically -->
+            </tbody>
+        </table>
+        <button id="add-book-btn">Add Book</button>
+    </div>
+
+    <a href="/src" id="back-to-authors" class="back">Back to Authors</a>
 </div>
+
+<script src="/src/Presentation/Public/js/ajax.js"></script>
+<script src="/src/Presentation/Public/js/books.js"></script>
 </body>
 </html>
-
