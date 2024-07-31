@@ -21,7 +21,9 @@ class AuthorService implements AuthorServiceInterface
      *
      * @param AuthorRepositoryInterface $authorRepository An instance of the repository for managing authors.
      */
-    public function __construct(private AuthorRepositoryInterface $authorRepository, private BookRepositoryInterface $bookRepository){}
+    public function __construct(private AuthorRepositoryInterface $authorRepository, private BookRepositoryInterface $bookRepository)
+    {
+    }
 
     /**
      * Retrieves all authors from the repository.
@@ -86,6 +88,15 @@ class AuthorService implements AuthorServiceInterface
 
     }
 
+    /**
+     * Gets the count of books associated with a specific author.
+     *
+     * This method retrieves the number of books that are linked to the given author's ID
+     * by calling the corresponding method in the book repository.
+     *
+     * @param int $authorId The ID of the author whose book count is to be retrieved.
+     * @return int The number of books associated with the specified author.
+     */
     public function getBookCountByAuthorId(int $authorId): int
     {
         return $this->bookRepository->countBooksByAuthorId($authorId);

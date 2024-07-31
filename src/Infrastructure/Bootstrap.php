@@ -4,8 +4,8 @@ namespace src\Infrastructure;
 
 use src\Business\Services\AuthorService;
 use src\Business\Services\BookService;
-use src\Data\Repositories\Session\AuthorRepositorySession;
-use src\Data\Repositories\Session\BookRepositorySession;
+use src\Data\Repositories\SQL\SQLAuthorRepository;
+use src\Data\Repositories\SQL\SQLBookRepository;
 use src\Presentation\Controller\AuthorController;
 use src\Presentation\Controller\BookController;
 
@@ -26,19 +26,19 @@ class Bootstrap
      */
     public static function init(): void
     {
-        $sessionManager = SessionManager::getInstance();
-        ServiceRegistry::register(SessionManager::class, $sessionManager);
+//        $sessionManager = SessionManager::getInstance();
+//        ServiceRegistry::register(SessionManager::class, $sessionManager);
 
-        $authorRepository = new AuthorRepositorySession();
-        ServiceRegistry::register(AuthorRepositorySession::class, $authorRepository);
+        $authorRepository = new SQLAuthorRepository();
+        ServiceRegistry::register(SQLAuthorRepository::class, $authorRepository);
 
-        $bookRepository = new BookRepositorySession();
-        ServiceRegistry::register(BookRepositorySession::class, $bookRepository);
+        $bookRepository = new SQLBookRepository();
+        ServiceRegistry::register(SQLBookRepository::class, $bookRepository);
 
-        $authorService = new AuthorService(ServiceRegistry::get(AuthorRepositorySession::class), ServiceRegistry::get(BookRepositorySession::class));
+        $authorService = new AuthorService(ServiceRegistry::get(SQLAuthorRepository::class), ServiceRegistry::get(SQLBookRepository::class));
         ServiceRegistry::register(AuthorService::class, $authorService);
 
-        $bookService = new BookService(ServiceRegistry::get(BookRepositorySession::class));
+        $bookService = new BookService(ServiceRegistry::get(SQLBookRepository::class));
         ServiceRegistry::register(BookService::class, $bookService);
 
         $authorController = new AuthorController(ServiceRegistry::get(AuthorService::class));

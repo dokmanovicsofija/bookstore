@@ -94,7 +94,8 @@ class BookRepositorySession implements BookRepositoryInterface
      * @param int $authorId The ID of the author whose books to retrieve.
      * @return Book[] An array of Book objects.
      */
-    public function getBooksByAuthorId(int $authorId): array {
+    public function getBooksByAuthorId(int $authorId): array
+    {
         return array_filter($this->books, function ($book) use ($authorId) {
             return $book->getAuthorId() == $authorId;
         });

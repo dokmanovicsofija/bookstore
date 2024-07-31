@@ -7,7 +7,7 @@ namespace src\Infrastructure\Response;
  *
  * Represents an abstract response. Provides common methods to set status code, headers, and body.
  */
-abstract class AbstractResponse
+abstract class AbstractHttpResponse
 {
     /**
      * Sets the HTTP status code for the response.

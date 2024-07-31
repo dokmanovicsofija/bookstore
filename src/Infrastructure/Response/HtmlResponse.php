@@ -3,22 +3,23 @@
 namespace src\Infrastructure\Response;
 
 /**
- * Class HttpResponse
+ * Class HtmlResponse
  *
- * Represents an HTTP response. It provides methods to set the status code, headers, and body of the response
+ * Represents a Html response. It provides methods to set the status code, headers, and body of the response
  * and to send the response to the client.
  */
-class HttpResponse extends AbstractResponse
+class HtmlResponse extends AbstractHttpResponse
 {
     /**
-     * HttpResponse constructor.
+     * HtmlResponse constructor.
      *
      * @param int $statusCode The HTTP status code for the response (default is 200).
      * @param string $body The body content of the response (default is an empty string).
      * @param array $headers An associative array of headers to include in the response (default is an empty array).
      */
     public function __construct(private int $statusCode = 200, private string $body = '', private array $headers = [])
-    {}
+    {
+    }
 
     /**
      * Sets the HTTP status code for the response.

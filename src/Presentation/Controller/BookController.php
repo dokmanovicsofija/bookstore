@@ -5,7 +5,7 @@ namespace src\Presentation\Controller;
 use src\Business\Interfaces\BookServiceInterface;
 use src\Business\Services\BookService;
 use src\Infrastructure\Request\HttpRequest;
-use src\Infrastructure\Response\HttpResponse;
+use src\Infrastructure\Response\HtmlResponse;
 use src\Infrastructure\Response\JsonResponse;
 
 /**
@@ -33,15 +33,15 @@ class BookController
      *
      * @param HttpRequest $request The HTTP request object containing information about the current request.
      * @param int $authorId The ID of the author whose books are to be displayed.
-     * @return HttpResponse An HTTP response containing the HTML content for displaying the books.
+     * @return HtmlResponse An HTTP response containing the HTML content for displaying the books.
      * The content is generated from the `authorBooks.php` view file.
      */
-    public function showBooksByAuthor(HttpRequest $request, int $authorId): HttpResponse
+    public function showBooksByAuthor(HttpRequest $request, int $authorId): HtmlResponse
     {
         ob_start();
         include __DIR__ . '/../Views/authorBooks.php';
         $content = ob_get_clean();
-        return new HttpResponse(200, $content);
+        return new HtmlResponse(200, $content);
     }
 
     /**

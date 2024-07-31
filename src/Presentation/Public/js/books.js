@@ -163,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Load books for the given author when the page is initialized.
     loadBooks();
 
 });

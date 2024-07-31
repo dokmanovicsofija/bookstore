@@ -13,7 +13,7 @@
 //// Singleton classes
 //require_once  './Infrastructure/SessionManager.php';
 //require_once  './Infrastructure/Http/HttpRequest.php';
-//require_once  './Infrastructure/Http/HttpResponse.php';
+//require_once  './Infrastructure/Http/HtmlResponse.php';
 //
 //// Data Repositories Interfaces
 //require_once './Data/Repositories/Interfaces/AuthorRepositoryInterface.php';

@@ -23,7 +23,8 @@ class Book extends AbstractDTO
         private string $title,
         private int    $year,
         private int    $authorId)
-    {}
+    {
+    }
 
     /**
      * Gets the unique identifier of the book.
@@ -127,5 +128,4 @@ class Book extends AbstractDTO
             'authorId' => $this->authorId,
         ];
     }
-
 }

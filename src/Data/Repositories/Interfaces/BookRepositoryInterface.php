@@ -58,4 +58,14 @@ interface BookRepositoryInterface
      * @return void
      */
     public function deleteBook(int $id): void;
+
+    /**
+     * Deletes books based on the author's ID.
+     *
+     * This method removes all books associated with the given author's ID from the database.
+     *
+     * @param int $authorId The ID of the author whose books should be deleted.
+     * @return void
+     */
+    public function deleteBooksByAuthorId(int $authorId): void;
 }

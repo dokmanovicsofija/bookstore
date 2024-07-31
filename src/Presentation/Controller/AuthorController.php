@@ -4,7 +4,7 @@ namespace src\Presentation\Controller;
 
 use src\Business\Interfaces\AuthorServiceInterface;
 use src\Infrastructure\Request\HttpRequest;
-use src\Infrastructure\Response\HttpResponse;
+use src\Infrastructure\Response\HtmlResponse;
 use src\Presentation\Models\Author;
 
 /**
@@ -25,9 +25,9 @@ class AuthorController
      * Handles the request to display the list of authors.
      *
      * @param HttpRequest $request The HTTP request object.
-     * @return HttpResponse The HTTP response object containing the list of authors.
+     * @return HtmlResponse The HTTP response object containing the list of authors.
      */
-    public function index(HttpRequest $request): HttpResponse
+    public function index(HttpRequest $request): HtmlResponse
     {
         $authors = $this->authorService->getAllAuthors();
         foreach ($authors as $author) {
@@ -37,30 +37,30 @@ class AuthorController
         ob_start();
         include __DIR__ . '/../Views/authors.php';
         $content = ob_get_clean();
-        return new HttpResponse(200, $content);
+        return new HtmlResponse(200, $content);
     }
 
     /**
      * Handles the request to display the author creation form.
      *
      * @param HttpRequest $request The HTTP request object.
-     * @return HttpResponse The HTTP response object containing the author creation form.
+     * @return HtmlResponse The HTTP response object containing the author creation form.
      */
-    public function create(HttpRequest $request): HttpResponse
+    public function create(HttpRequest $request): HtmlResponse
     {
         ob_start();
         include __DIR__ . '/../Views/createAuthor.php';
         $content = ob_get_clean();
-        return new HttpResponse(200, $content);
+        return new HtmlResponse(200, $content);
     }
 
     /**
      * Handles the request to store a new author.
      *
      * @param HttpRequest $request The HTTP request object containing the author data.
-     * @return HttpResponse The HTTP response object redirecting to the authors list or displaying validation errors.
+     * @return HtmlResponse The HTTP response object redirecting to the authors list or displaying validation errors.
      */
-    public function store(HttpRequest $request): HttpResponse
+    public function store(HttpRequest $request): HtmlResponse
     {
         $firstNameError = $lastNameError = "";
         $firstName = $this->validateField($request->post('first_name', ''), 100, $firstNameError);
@@ -68,13 +68,13 @@ class AuthorController
 
         if (empty($firstNameError) && empty($lastNameError)) {
             $this->authorService->createAuthor($firstName, $lastName);
-            return new HttpResponse(302, '', ['Location' => '/src']);
+            return new HtmlResponse(302, '', ['Location' => '/src']);
         }
 
         ob_start();
         include __DIR__ . '/../Views/createAuthor.php';
         $content = ob_get_clean();
-        return new HttpResponse(200, $content);
+        return new HtmlResponse(200, $content);
     }
 
     /**
@@ -82,16 +82,16 @@ class AuthorController
      *
      * @param HttpRequest $request The HTTP request object.
      * @param int $id The ID of the author to be edited.
-     * @return HttpResponse The HTTP response object containing the author edit form.
+     * @return HtmlResponse The HTTP response object containing the author edit form.
      */
-    public function edit(HttpRequest $request, int $id): HttpResponse
+    public function edit(HttpRequest $request, int $id): HtmlResponse
     {
         $author = $this->authorService->getAuthorById($id);
 
         ob_start();
         include __DIR__ . '/../Views/editAuthor.php';
         $content = ob_get_clean();
-        return new HttpResponse(200, $content);
+        return new HtmlResponse(200, $content);
     }
 
     /**
@@ -99,9 +99,9 @@ class AuthorController
      *
      * @param HttpRequest $request The HTTP request object containing the updated author data.
      * @param int $id The ID of the author to be updated.
-     * @return HttpResponse The HTTP response object redirecting to the authors list or displaying validation errors.
+     * @return HtmlResponse The HTTP response object redirecting to the authors list or displaying validation errors.
      */
-    public function update(HttpRequest $request, int $id): HttpResponse
+    public function update(HttpRequest $request, int $id): HtmlResponse
     {
         $firstNameError = $lastNameError = "";
         $firstName = $this->validateField($request->post('first_name', ''), 100, $firstNameError);
@@ -111,14 +111,14 @@ class AuthorController
         if ($request->getMethod() === 'POST') {
             if (empty($firstNameError) && empty($lastNameError)) {
                 $this->authorService->updateAuthor($id, $firstName, $lastName);
-                return new HttpResponse(302, '', ['Location' => '/src']);
+                return new HtmlResponse(302, '', ['Location' => '/src']);
             }
         }
 
         ob_start();
         include __DIR__ . '/../Views/editAuthor.php';
         $content = ob_get_clean();
-        return new HttpResponse(200, $content);
+        return new HtmlResponse(200, $content);
     }
 
     /**
@@ -130,16 +130,16 @@ class AuthorController
      *
      * @param HttpRequest $request The HTTP request object containing the request data.
      * @param int $id The ID of the author to be deleted.
-     * @return HttpResponse The HTTP response object, either redirecting after deletion or displaying the delete form.
+     * @return HtmlResponse The HTTP response object, either redirecting after deletion or displaying the delete form.
      */
-    public function delete(HttpRequest $request, int $id): HttpResponse
+    public function delete(HttpRequest $request, int $id): HtmlResponse
     {
         if ($request->getMethod() === 'POST') {
             try {
                 $this->authorService->deleteAuthor($id);
-                return new HttpResponse(302, '', ['Location' => '/src']);
+                return new HtmlResponse(302, '', ['Location' => '/src']);
             } catch (\Exception $e) {
-                return new HttpResponse(500, 'Internal Server Error');
+                return new HtmlResponse(500, 'Internal Server Error');
             }
         }
 
@@ -148,7 +148,7 @@ class AuthorController
         ob_start();
         include __DIR__ . '/../Views/deleteAuthor.php';
         $content = ob_get_clean();
-        return new HttpResponse(200, $content);
+        return new HtmlResponse(200, $content);
     }
 
     /**
