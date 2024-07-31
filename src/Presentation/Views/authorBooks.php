@@ -15,11 +15,11 @@
             <thead>
             <tr>
                 <th>Book</th>
+                <th>Year</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <!-- Books will be added here dynamically -->
             </tbody>
         </table>
         <button id="add-book-btn">Add Book</button>

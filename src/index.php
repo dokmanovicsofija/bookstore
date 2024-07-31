@@ -5,11 +5,11 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use src\Infrastructure\Bootstrap;
+use src\Infrastructure\Request\HttpRequest;
+use src\Infrastructure\Response\HttpResponse;
 use src\Infrastructure\ServiceRegistry;
 use src\Presentation\Controller\AuthorController;
 use src\Presentation\Controller\BookController;
-use src\Infrastructure\Http\HttpRequest;
-use src\Infrastructure\Http\HttpResponse;
 
 Bootstrap::init();
 
@@ -60,24 +60,26 @@ switch ($baseUri)
         if ($request->getMethod() === 'GET') {
             $id = (int) $request->getQueryParams()['authorId'] ?? 0;
             $response = $bookController->getBooksByAuthor($request, $id);
-        } elseif ($request->getMethod() === 'POST') {
-            $id = (int) $request->getQueryParams()['authorId'] ?? 0;
-            $response = $bookController->addBook($request, $id);
+            break;
         }
+
+        if ($request->getMethod() === 'POST') {
+            $id = (int)$request->getQueryParams()['authorId'] ?? 0;
+            $response = $bookController->addBook($request, $id);
+            break;
+        }
+
         break;
     case '/books/delete':
         if ($request->getMethod() === 'DELETE') {
             $bookId = (int) $request->getQueryParams()['bookId'];
             $response = $bookController->deleteBook($request, $bookId);
         }
+
         break;
     default:
-        header('Content-Type: application/json');
-        echo json_encode(['error' => 'Page not found']);
-        http_response_code(404);
-        exit();
-//        $response = new HttpResponse(404, 'Page not found');
-//        break;
+        $response = new HttpResponse(404, 'Page not found');
+        break;
 }
 
 $response -> send();

@@ -3,8 +3,8 @@
 namespace src\Presentation\Controller;
 
 use src\Business\Interfaces\AuthorServiceInterface;
-use src\Infrastructure\Http\HttpRequest;
-use src\Infrastructure\Http\HttpResponse;
+use src\Infrastructure\Request\HttpRequest;
+use src\Infrastructure\Response\HttpResponse;
 use src\Presentation\Models\Author;
 
 /**

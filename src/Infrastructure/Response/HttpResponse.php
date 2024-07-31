@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Infrastructure\Http;
+namespace src\Infrastructure\Response;
 
 /**
  * Class HttpResponse
@@ -8,7 +8,7 @@ namespace src\Infrastructure\Http;
  * Represents an HTTP response. It provides methods to set the status code, headers, and body of the response
  * and to send the response to the client.
  */
-class HttpResponse
+class HttpResponse extends AbstractResponse
 {
     /**
      * HttpResponse constructor.

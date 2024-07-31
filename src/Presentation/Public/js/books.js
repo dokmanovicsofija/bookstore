@@ -1,7 +1,14 @@
+/**
+ * Initializes the page by setting up event listeners and loading books.
+ */
 document.addEventListener('DOMContentLoaded', function() {
 
+    // Get the author ID from the input field.
     const authorId = document.getElementById('author-id').value;
 
+    /**
+     * Loads the list of books for the given author and displays them in a table.
+     */
     function loadBooks() {
         console.log(`Loading books for authorId=${authorId}`);
         Ajax.get(`/books?authorId=${authorId}`)
@@ -32,6 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching books:', error));
     }
 
+    /**
+     * Adds event listeners to delete buttons in the books table.
+     */
     function addDeleteEventListeners() {
         const deleteButtons = document.querySelectorAll('.delete-btn');
         deleteButtons.forEach(button => {
@@ -43,6 +53,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    /**
+     * Shows a confirmation modal for deleting a book.
+     *
+     * @param {string} bookId - The ID of the book to delete.
+     * @param {string} bookTitle - The title of the book to delete.
+     */
     function showDeleteConfirmation(bookId, bookTitle) {
         const booksSection = document.getElementById('books-section');
         booksSection.style.display = 'none';
@@ -86,6 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    /**
+     * Opens a form to add a new book and handles the form submission.
+     */
     document.getElementById('add-book-btn').addEventListener('click', function() {
         const booksSection = document.getElementById('books-section');
         booksSection.style.display = 'none';
@@ -144,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Load books for the given author when the page is initialized.
     loadBooks();
 
 });
