@@ -2,6 +2,7 @@
 
 namespace src\Infrastructure;
 
+use Exception;
 use src\Business\Services\AuthorService;
 use src\Business\Services\BookService;
 use src\Data\Repositories\SQL\SQLAuthorRepository;
@@ -23,11 +24,12 @@ class Bootstrap
      * This setup ensures that all components are properly initialized and available for use throughout the application.
      *
      * @return void
+     * @throws Exception
      */
     public static function init(): void
     {
-//        $sessionManager = SessionManager::getInstance();
-//        ServiceRegistry::register(SessionManager::class, $sessionManager);
+        $sessionManager = SessionManager::getInstance();
+        ServiceRegistry::register(SessionManager::class, $sessionManager);
 
         $authorRepository = new SQLAuthorRepository();
         ServiceRegistry::register(SQLAuthorRepository::class, $authorRepository);

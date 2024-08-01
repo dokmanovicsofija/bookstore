@@ -2,6 +2,8 @@
 
 namespace src\Infrastructure;
 
+use Exception;
+
 /**
  * Class ServiceRegistry
  *
@@ -35,14 +37,13 @@ class ServiceRegistry
      *
      * @return mixed The service instance associated with the given key.
      *
-     * @throws \Exception If the service is not found in the registry.
+     * @throws Exception If the service is not found in the registry.
      */
     public static function get(string $key): mixed
     {
         if (!isset(self::$services[$key])) {
-            throw new \Exception("Service not found: " . $key);
+            throw new Exception("Service not found: " . $key);
         }
         return self::$services[$key];
     }
 }
-

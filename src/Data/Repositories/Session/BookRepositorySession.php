@@ -101,6 +101,14 @@ class BookRepositorySession implements BookRepositoryInterface
         });
     }
 
+    /**
+     * Adds a new book to the collection.
+     *
+     * @param string $title The title of the book.
+     * @param int $year The publication year of the book.
+     * @param int $authorId The unique identifier of the author of the book.
+     * @return Book The newly added Book object.
+     */
     public function addBook(string $title, int $year, int $authorId): Book
     {
         $id = $this->getNextIdBook();
@@ -111,6 +119,12 @@ class BookRepositorySession implements BookRepositoryInterface
         return $newBook;
     }
 
+    /**
+     * Deletes a book from the collection by its unique identifier.
+     *
+     * @param int $bookId The unique identifier of the book to be deleted.
+     * @return void
+     */
     public function deleteBook(int $bookId): void
     {
         $this->books = array_filter($this->books, function ($book) use ($bookId) {

@@ -44,13 +44,11 @@ class JsonResponse extends AbstractHttpResponse
     /**
      * Set the body of the response.
      *
-     * This method is not needed for JSON responses as the body is set directly from data.
-     *
-     * @param string $body The body content (not used in JSON response).
+     * @param string $body The body content (which would override the JSON data in this case).
      */
     public function setBody(string $body): void
     {
-        // This method is not needed for JSON responses as the body is set directly from data.
+        $this->data = json_decode($body, true);
     }
 
     /**

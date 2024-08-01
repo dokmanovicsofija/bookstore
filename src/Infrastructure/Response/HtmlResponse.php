@@ -2,6 +2,8 @@
 
 namespace src\Infrastructure\Response;
 
+use Exception;
+
 /**
  * Class HtmlResponse
  *
@@ -50,6 +52,25 @@ class HtmlResponse extends AbstractHttpResponse
     public function setBody(string $body): void
     {
         $this->body = $body;
+    }
+
+    /**
+     * Load content from an HTML file and set it as the body of the response.
+     *
+     * @param string $filePath The path to the HTML file.
+     * @param array $data An associative array of data to be used in the view (optional).
+     * @throws Exception
+     */
+    public function setBodyFromFile(string $filePath, array $data = []): void
+    {
+        if (file_exists($filePath)) {
+            ob_start();
+            extract($data);
+            include $filePath;
+            $this->body = ob_get_clean();
+        } else {
+            throw new Exception("File not found: $filePath");
+        }
     }
 
     /**

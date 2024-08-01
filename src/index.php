@@ -12,7 +12,7 @@ use src\Presentation\Controller\AuthorController;
 use src\Presentation\Controller\BookController;
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv = Dotenv::createUnsafeImmutable('/var/www/bookstore');
 $dotenv->load();
 
 Bootstrap::init();
@@ -24,11 +24,6 @@ $authorController = ServiceRegistry::get(AuthorController::class);
 $bookController = ServiceRegistry::get(BookController::class);
 
 $baseUri = str_replace('/src', '', $request->getUri());
-
-//session_start();
-//session_unset();
-//session_destroy();
-//session_start();
 
 switch ($baseUri) {
     case '/':

@@ -8,9 +8,9 @@
 </head>
 <body>
 <div class="container">
-    <h1>Books by Author</h1>
     <input type="hidden" id="author-id" value="<?php echo htmlspecialchars($authorId); ?>">
     <div id="books-section">
+        <h1>Books by Author</h1>
         <table id="books-table">
             <thead>
             <tr>
@@ -24,7 +24,6 @@
         </table>
         <button id="add-book-btn">Add Book</button>
     </div>
-
     <a href="/src" id="back-to-authors" class="back">Back to Authors</a>
 </div>
 

@@ -134,5 +134,4 @@ class Author extends AbstractDTO
             'bookCount' => $this->bookCount,
         ];
     }
-
 }

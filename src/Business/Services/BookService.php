@@ -76,7 +76,7 @@ class BookService implements BookServiceInterface
      * @param string $title The title of the book.
      * @param int $year The publication year of the book.
      * @param int $authorId The ID of the author of the book.
-     * @return void
+     * @return Book
      */
     public function createBook(string $title, int $year, int $authorId): Book
     {

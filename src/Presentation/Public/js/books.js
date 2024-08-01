@@ -164,5 +164,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     loadBooks();
-
 });

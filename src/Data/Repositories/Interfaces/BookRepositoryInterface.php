@@ -27,7 +27,7 @@ interface BookRepositoryInterface
      * Returns books that belong to a specific author.
      *
      * @param int $authorId The unique identifier of the author.
-     * @return Book[] An array of Book objects belonging to the specified author.
+     * @return int The count of books belonging to the specified author.
      */
     public function countBooksByAuthorId(int $authorId): int;
 

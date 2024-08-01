@@ -2,6 +2,7 @@
 
 namespace src\Presentation\Controller;
 
+use Exception;
 use src\Business\Interfaces\BookServiceInterface;
 use src\Business\Services\BookService;
 use src\Infrastructure\Request\HttpRequest;
@@ -35,13 +36,14 @@ class BookController
      * @param int $authorId The ID of the author whose books are to be displayed.
      * @return HtmlResponse An HTTP response containing the HTML content for displaying the books.
      * The content is generated from the `authorBooks.php` view file.
+     * @throws Exception
      */
     public function showBooksByAuthor(HttpRequest $request, int $authorId): HtmlResponse
     {
-        ob_start();
-        include __DIR__ . '/../Views/authorBooks.php';
-        $content = ob_get_clean();
-        return new HtmlResponse(200, $content);
+        $response = new HtmlResponse(200);
+        $response->setBodyFromFile(__DIR__ . '/../Views/authorBooks.php',
+            ['authorId' => $authorId]);
+        return $response;
     }
 
     /**
@@ -113,5 +115,4 @@ class BookController
 
         return new JsonResponse([], 204);
     }
-
 }
