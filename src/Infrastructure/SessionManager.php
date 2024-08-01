@@ -1,9 +1,9 @@
 <?php
 
-namespace src\Infrastructure;
+namespace Bookstore\Infrastructure;
 
-use src\Infrastructure\Utility\SingletonAbstract;
-use src\Wrapper\GlobalWrapper;
+use Bookstore\Infrastructure\Utility\GlobalWrapper;
+use Bookstore\Infrastructure\Utility\SingletonAbstract;
 
 /**
  * Class SessionManager

@@ -1,10 +1,10 @@
 <?php
 
-namespace src\Business\Services;
+namespace Bookstore\Business\Services;
 
-use src\Business\Interfaces\BookServiceInterface;
-use src\Data\Repositories\Interfaces\BookRepositoryInterface;
-use src\Presentation\Models\Book;
+use Bookstore\Business\Interfaces\BookRepositoryInterface;
+use Bookstore\Business\Interfaces\BookServiceInterface;
+use Bookstore\Presentation\Models\Book;
 
 /**
  * Class BookService

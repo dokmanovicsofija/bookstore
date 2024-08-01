@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Infrastructure\Utility;
+namespace Bookstore\Infrastructure\Utility;
 
 /**
  * Abstract SingletonAbstract class.

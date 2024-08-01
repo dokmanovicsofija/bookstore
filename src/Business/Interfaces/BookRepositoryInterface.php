@@ -1,7 +1,7 @@
 <?php
 
-namespace src\Data\Repositories\Interfaces;
-use src\Presentation\Models\Book;
+namespace Bookstore\Business\Interfaces;
+use Bookstore\Presentation\Models\Book;
 
 /**
  * Interface for book repository operations.

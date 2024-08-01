@@ -1,14 +1,19 @@
 <?php
 
-namespace src\Infrastructure;
+namespace Bookstore\Infrastructure;
 
+use Bookstore\Business\Interfaces\AuthorRepositoryInterface;
+use Bookstore\Business\Interfaces\AuthorServiceInterface;
+use Bookstore\Business\Interfaces\BookRepositoryInterface;
+use Bookstore\Business\Interfaces\BookServiceInterface;
+use Bookstore\Business\Services\AuthorService;
+use Bookstore\Business\Services\BookService;
+use Bookstore\Data\Repositories\SQL\SQLAuthorRepository;
+use Bookstore\Data\Repositories\SQL\SQLBookRepository;
+use Bookstore\Presentation\Controller\AuthorController;
+use Bookstore\Presentation\Controller\BookController;
+use Dotenv\Dotenv;
 use Exception;
-use src\Business\Services\AuthorService;
-use src\Business\Services\BookService;
-use src\Data\Repositories\SQL\SQLAuthorRepository;
-use src\Data\Repositories\SQL\SQLBookRepository;
-use src\Presentation\Controller\AuthorController;
-use src\Presentation\Controller\BookController;
 
 class Bootstrap
 {
@@ -24,29 +29,63 @@ class Bootstrap
      * This setup ensures that all components are properly initialized and available for use throughout the application.
      *
      * @return void
+     *
      * @throws Exception
      */
     public static function init(): void
     {
-        $sessionManager = SessionManager::getInstance();
-        ServiceRegistry::register(SessionManager::class, $sessionManager);
+        $dotenv = Dotenv::createUnsafeImmutable('/var/www/bookstore');
+        $dotenv->load();
 
-        $authorRepository = new SQLAuthorRepository();
-        ServiceRegistry::register(SQLAuthorRepository::class, $authorRepository);
-
-        $bookRepository = new SQLBookRepository();
-        ServiceRegistry::register(SQLBookRepository::class, $bookRepository);
-
-        $authorService = new AuthorService(ServiceRegistry::get(SQLAuthorRepository::class), ServiceRegistry::get(SQLBookRepository::class));
-        ServiceRegistry::register(AuthorService::class, $authorService);
-
-        $bookService = new BookService(ServiceRegistry::get(SQLBookRepository::class));
-        ServiceRegistry::register(BookService::class, $bookService);
-
-        $authorController = new AuthorController(ServiceRegistry::get(AuthorService::class));
-        ServiceRegistry::register(AuthorController::class, $authorController);
-
-        $bookController = new BookController(ServiceRegistry::get(BookService::class));
-        ServiceRegistry::register(BookController::class, $bookController);
+        self::registerRepos();
+        self::registerServices();
+        self::registerControllers();
     }
+
+    /**
+     * Registers repository instances with the service registry.
+     *
+     * @return void
+     */
+    protected static function registerRepos(): void
+    {
+        ServiceRegistry::register(AuthorRepositoryInterface::class, new SQLAuthorRepository());
+        ServiceRegistry::register(BookRepositoryInterface::class, new SQLBookRepository());
+    }
+
+    /**
+     * Registers service instances with the service registry.
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    protected static function registerServices(): void
+    {
+        ServiceRegistry::register(AuthorServiceInterface::class, new AuthorService(
+            ServiceRegistry::get(AuthorRepositoryInterface::class),
+            ServiceRegistry::get(BookRepositoryInterface::class)
+        ));
+        ServiceRegistry::register(BookServiceInterface::class, new BookService(
+            ServiceRegistry::get(BookRepositoryInterface::class)
+        ));
+    }
+
+    /**
+     * Registers controller instances with the service registry.
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    protected static function registerControllers(): void
+    {
+        ServiceRegistry::register(AuthorController::class, new AuthorController(
+            ServiceRegistry::get(AuthorServiceInterface::class)
+        ));
+        ServiceRegistry::register(BookController::class, new BookController(
+            ServiceRegistry::get(BookServiceInterface::class)
+        ));
+    }
+
 }

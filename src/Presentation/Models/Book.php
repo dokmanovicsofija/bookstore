@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Presentation\Models;
+namespace Bookstore\Presentation\Models;
 
 /**
  * Class Book

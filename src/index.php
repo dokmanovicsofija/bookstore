@@ -4,18 +4,19 @@
  */
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use src\Infrastructure\Bootstrap;
-use src\Infrastructure\Request\HttpRequest;
-use src\Infrastructure\Response\HtmlResponse;
-use src\Infrastructure\ServiceRegistry;
-use src\Presentation\Controller\AuthorController;
-use src\Presentation\Controller\BookController;
-use Dotenv\Dotenv;
-
-$dotenv = Dotenv::createUnsafeImmutable('/var/www/bookstore');
-$dotenv->load();
+use Bookstore\Infrastructure\Bootstrap;
+use Bookstore\Infrastructure\Request\HttpRequest;
+use Bookstore\Infrastructure\Response\HtmlResponse;
+use Bookstore\Infrastructure\ServiceRegistry;
+use Bookstore\Presentation\Controller\AuthorController;
+use Bookstore\Presentation\Controller\BookController;
 
 Bootstrap::init();
+
+//session_start();
+//session_unset();
+//session_destroy();
+//session_start();
 
 $request = new HttpRequest();
 $response = new HtmlResponse();

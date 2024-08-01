@@ -1,7 +1,7 @@
 <?php
 
-namespace src\Business\Interfaces;
-use src\Presentation\Models\Book;
+namespace Bookstore\Business\Interfaces;
+use Bookstore\Presentation\Models\Book;
 
 /**
  * Interface for managing book services.

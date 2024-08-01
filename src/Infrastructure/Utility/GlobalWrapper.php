@@ -1,8 +1,6 @@
 <?php
 
-namespace src\Wrapper;
-
-use src\Infrastructure\Utility\SingletonAbstract;
+namespace Bookstore\Infrastructure\Utility;
 
 /**
  * Class GlobalWrapper

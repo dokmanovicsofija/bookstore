@@ -3,7 +3,7 @@
     "description": "A bookstore management application",
     "autoload": {
         "psr-4": {
-            "src\\": "src/"
+            "Bookstore\\": "src/"
         }
     },
     "authors": [

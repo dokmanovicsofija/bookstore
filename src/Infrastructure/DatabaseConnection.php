@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Infrastructure;
+namespace Bookstore\Infrastructure;
 
 use PDO;
 use PDOException;

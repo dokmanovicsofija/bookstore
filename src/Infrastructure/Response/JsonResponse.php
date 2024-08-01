@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Infrastructure\Response;
+namespace Bookstore\Infrastructure\Response;
 
 /**
  * Class JsonResponse
@@ -18,6 +18,7 @@ class JsonResponse extends AbstractHttpResponse
      */
     public function __construct(private array $data = [], private int $statusCode = 200, private array $headers = [])
     {
+        $this->headers['Content-Type'] = 'application/json';
     }
 
     /**
@@ -62,7 +63,6 @@ class JsonResponse extends AbstractHttpResponse
             header("$header: $value");
         }
 
-        header('Content-Type: application/json');
         echo json_encode($this->data);
     }
 }

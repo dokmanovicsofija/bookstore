@@ -8,25 +8,8 @@
 </head>
 <body>
 <div class="container">
-    <input type="hidden" id="author-id" value="<?php echo htmlspecialchars($authorId); ?>">
-    <div id="books-section">
-        <h1>Books by Author</h1>
-        <table id="books-table">
-            <thead>
-            <tr>
-                <th>Book</th>
-                <th>Year</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <button id="add-book-btn">Add Book</button>
-    </div>
-    <a href="/src" id="back-to-authors" class="back">Back to Authors</a>
+    <div id="books-section"></div>
 </div>
-
 <script src="/src/Presentation/Public/js/ajax.js"></script>
 <script src="/src/Presentation/Public/js/books.js"></script>
 </body>

@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Infrastructure\Response;
+namespace Bookstore\Infrastructure\Response;
 
 /**
  * Class AbstractHttpResponse

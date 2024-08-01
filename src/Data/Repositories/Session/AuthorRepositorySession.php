@@ -1,10 +1,10 @@
 <?php
 
-namespace src\Data\Repositories\Session;
+namespace Bookstore\Data\Repositories\Session;
 
-use src\Data\Repositories\Interfaces\AuthorRepositoryInterface;
-use src\Infrastructure\SessionManager;
-use src\Presentation\Models\Author;
+use Bookstore\Business\Interfaces\AuthorRepositoryInterface;
+use Bookstore\Infrastructure\SessionManager;
+use Bookstore\Presentation\Models\Author;
 
 /**
  * Class AuthorRepositorySession

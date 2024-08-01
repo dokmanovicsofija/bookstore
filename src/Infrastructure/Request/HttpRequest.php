@@ -1,8 +1,8 @@
 <?php
 
-namespace src\Infrastructure\Request;
+namespace Bookstore\Infrastructure\Request;
 
-use src\Wrapper\GlobalWrapper;
+use Bookstore\Infrastructure\Utility\GlobalWrapper;
 
 /**
  * Class HttpRequest

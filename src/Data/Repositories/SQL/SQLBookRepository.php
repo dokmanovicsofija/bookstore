@@ -1,10 +1,10 @@
 <?php
 
-namespace src\Data\Repositories\SQL;
+namespace Bookstore\Data\Repositories\SQL;
 
-use src\Data\Repositories\Interfaces\BookRepositoryInterface;
-use src\Infrastructure\DatabaseConnection;
-use src\Presentation\Models\Book;
+use Bookstore\Business\Interfaces\BookRepositoryInterface;
+use Bookstore\Infrastructure\DatabaseConnection;
+use Bookstore\Presentation\Models\Book;
 use PDO;
 
 /**

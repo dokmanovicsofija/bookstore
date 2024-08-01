@@ -1,13 +1,13 @@
 <?php
 
-namespace src\Presentation\Controller;
+namespace Bookstore\Presentation\Controller;
 
 use Exception;
-use src\Business\Interfaces\BookServiceInterface;
-use src\Business\Services\BookService;
-use src\Infrastructure\Request\HttpRequest;
-use src\Infrastructure\Response\HtmlResponse;
-use src\Infrastructure\Response\JsonResponse;
+use Bookstore\Business\Interfaces\BookServiceInterface;
+use Bookstore\Business\Services\BookService;
+use Bookstore\Infrastructure\Request\HttpRequest;
+use Bookstore\Infrastructure\Response\HtmlResponse;
+use Bookstore\Infrastructure\Response\JsonResponse;
 
 /**
  * Class BookController

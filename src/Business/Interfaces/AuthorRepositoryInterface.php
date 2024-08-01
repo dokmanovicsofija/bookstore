@@ -1,7 +1,7 @@
 <?php
 
-namespace src\Data\Repositories\Interfaces;
-use src\Presentation\Models\Author;
+namespace Bookstore\Business\Interfaces;
+use Bookstore\Presentation\Models\Author;
 
 /**
  * Interface AuthorRepositoryInterface

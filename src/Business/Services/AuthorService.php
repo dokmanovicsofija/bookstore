@@ -1,11 +1,11 @@
 <?php
 
-namespace src\Business\Services;
+namespace Bookstore\Business\Services;
 
-use src\Business\Interfaces\AuthorServiceInterface;
-use src\Data\Repositories\Interfaces\AuthorRepositoryInterface;
-use src\Data\Repositories\Interfaces\BookRepositoryInterface;
-use src\Presentation\Models\Author;
+use Bookstore\Business\Interfaces\AuthorRepositoryInterface;
+use Bookstore\Business\Interfaces\AuthorServiceInterface;
+use Bookstore\Business\Interfaces\BookRepositoryInterface;
+use Bookstore\Presentation\Models\Author;
 
 require_once 'autoload.php';
 
