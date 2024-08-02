@@ -48,11 +48,11 @@ class DatabaseConnection
      */
     private static function connect(): void
     {
-        $host = getenv('DBHOST');
-        $db = getenv('DBNAME');
-        $user = getenv('DBUSER');
-        $pass = getenv('DBPASS');
-        $charset = getenv('DBCHARSET');
+        $host = getenv('DB_HOST');
+        $db = getenv('DB_NAME');
+        $user = getenv('DB_USER');
+        $pass = getenv('DB_PASS');
+        $charset = getenv('DB_CHARSET');
 
         $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
         $options = [

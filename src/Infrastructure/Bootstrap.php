@@ -34,7 +34,8 @@ class Bootstrap
      */
     public static function init(): void
     {
-        $dotenv = Dotenv::createUnsafeImmutable('/var/www/bookstore');
+//        $dotenv = Dotenv::createUnsafeImmutable('/var/www/bookstore');
+        $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../../');
         $dotenv->load();
 
         self::registerRepos();
