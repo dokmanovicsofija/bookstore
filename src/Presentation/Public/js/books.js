@@ -189,6 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.body.removeChild(deleteConfirmation);
                     booksSection.style.display = 'block';
                     loadBooks();
+                    showBackButton();
                 })
                 .catch(error => console.error('Error deleting book:', error));
         });

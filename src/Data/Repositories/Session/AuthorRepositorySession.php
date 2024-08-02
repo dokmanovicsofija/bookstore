@@ -19,11 +19,6 @@ class AuthorRepositorySession implements AuthorRepositoryInterface
     private array $authors;
 
     /**
-     * @var SessionManager The session manager instance.
-     */
-    private SessionManager $sessionManager;
-
-    /**
      * AuthorRepositorySession constructor.
      *
      * Initializes the object by setting up the session manager and loading
@@ -32,15 +27,15 @@ class AuthorRepositorySession implements AuthorRepositoryInterface
      */
     public function __construct()
     {
-        $this->sessionManager = SessionManager::getInstance();
-        $authors = $this->sessionManager->get('authors');
+        $sessionManager = SessionManager::getInstance();
+        $authors = $sessionManager->get('authors');
 
         if (!$authors) {
             $defaultAuthors = [
                 (new Author(1, 'Sofija', 'Dokmanovic'))->toArray(),
                 (new Author(2, 'Ana', 'Ivanovic'))->toArray(),
             ];
-            $this->sessionManager->set('authors', $defaultAuthors);
+            $sessionManager->set('authors', $defaultAuthors);
             $authors = $defaultAuthors;
         }
 
@@ -140,7 +135,7 @@ class AuthorRepositorySession implements AuthorRepositoryInterface
             $authorsArray[] = $author->toArray();
         }
 
-        $this->sessionManager->set('authors', $authorsArray);
+        SessionManager::getInstance()->set('authors', $authorsArray);
     }
 
     /**

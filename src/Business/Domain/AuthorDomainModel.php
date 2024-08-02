@@ -20,9 +20,9 @@ class AuthorDomainModel
     }
 
     /**
-     * Gets the unique identifier for the author.
+     * Get the ID of the author.
      *
-     * @return int The unique identifier of the author.
+     * @return int The ID of the author.
      */
     public function getId(): int
     {
@@ -50,13 +50,23 @@ class AuthorDomainModel
     }
 
     /**
-     * Gets the number of books written by the author.
+     * Get the number of books by the author.
      *
-     * @return int The number of books written by the author.
+     * @return int The number of books.
      */
     public function getBookCount(): int
     {
         return $this->bookCount;
+    }
+
+    /**
+     * Gets the full name of the author.
+     *
+     * @return string The full name of the author.
+     */
+    public function getFullName(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     /**

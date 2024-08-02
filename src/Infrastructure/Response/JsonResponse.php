@@ -16,8 +16,9 @@ class JsonResponse extends AbstractHttpResponse
      * @param int $statusCode The HTTP status code (default is 200).
      * @param array $headers An associative array of headers (optional).
      */
-    public function __construct(private array $data = [], private int $statusCode = 200, private array $headers = [])
+    public function __construct(private array $data = [], protected int $statusCode = 200, protected array $headers = [])
     {
+        parent::__construct($statusCode);
         $this->headers['Content-Type'] = 'application/json';
     }
 

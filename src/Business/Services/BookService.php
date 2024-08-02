@@ -2,9 +2,9 @@
 
 namespace Bookstore\Business\Services;
 
+use Bookstore\Business\Domain\BookDomainModel;
 use Bookstore\Business\Interfaces\BookRepositoryInterface;
 use Bookstore\Business\Interfaces\BookServiceInterface;
-use Bookstore\Presentation\Models\Book;
 
 /**
  * Class BookService
@@ -18,14 +18,16 @@ class BookService implements BookServiceInterface
      *
      * @param BookRepositoryInterface $bookRepository The repository instance to be used by the service.
      */
-    public function __construct(private BookRepositoryInterface $bookRepository){}
+    public function __construct(private BookRepositoryInterface $bookRepository)
+    {
+    }
 
     /**
      * Retrieves all books.
      *
      * This method fetches all books from the repository.
      *
-     * @return Book[] An array of Book objects.
+     * @return BookDomainModel[] An array of Book objects.
      */
     public function getAllBooks(): array
     {
@@ -38,33 +40,21 @@ class BookService implements BookServiceInterface
      * This method fetches a single book from the repository based on the provided ID.
      *
      * @param int $id The ID of the book to retrieve.
-     * @return Book|null The Book object if found, or null if not found.
+     * @return BookDomainModel|null The Book object if found, or null if not found.
      */
-    public function getBookById(int $id): ?Book
+    public function getBookById(int $id): ?BookDomainModel
     {
         return $this->bookRepository->getById($id);
-    }
-
-    /**
-     * Counts the number of books associated with the specified author ID.
-     *
-     * This method fetches the total number of books from the repository that are linked to the given author ID.
-     *
-     * @param int $authorId The ID of the author whose books are to be counted.
-     * @return int The number of books associated with the specified author.
-     */
-    public function countBooksByAuthorId(int $authorId): int
-    {
-        return $this->bookRepository->countBooksByAuthorId($authorId);
     }
 
     /**
      * Retrieves books by author ID.
      *
      * @param int $authorId The ID of the author whose books to retrieve.
-     * @return Book[] An array of Book objects.
+     * @return BookDomainModel[] An array of Book objects.
      */
-    public function getBooksByAuthorId(int $authorId): array {
+    public function getBooksByAuthorId(int $authorId): array
+    {
         return $this->bookRepository->getBooksByAuthorId($authorId);
     }
 
@@ -76,9 +66,9 @@ class BookService implements BookServiceInterface
      * @param string $title The title of the book.
      * @param int $year The publication year of the book.
      * @param int $authorId The ID of the author of the book.
-     * @return Book
+     * @return BookDomainModel
      */
-    public function createBook(string $title, int $year, int $authorId): Book
+    public function createBook(string $title, int $year, int $authorId): BookDomainModel
     {
         return $this->bookRepository->addBook($title, $year, $authorId);
     }

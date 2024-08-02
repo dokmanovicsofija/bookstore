@@ -2,12 +2,13 @@
 
 namespace Bookstore\Presentation\Controller;
 
+use Bookstore\Presentation\Models\Book;
 use Exception;
 use Bookstore\Business\Interfaces\BookServiceInterface;
-use Bookstore\Business\Services\BookService;
 use Bookstore\Infrastructure\Request\HttpRequest;
 use Bookstore\Infrastructure\Response\HtmlResponse;
 use Bookstore\Infrastructure\Response\JsonResponse;
+use InvalidArgumentException;
 
 /**
  * Class BookController
@@ -16,7 +17,7 @@ use Bookstore\Infrastructure\Response\JsonResponse;
  * and retrieving book information. It interacts with the BookService to perform these operations
  * and returns responses in the appropriate format.
  */
-class BookController
+readonly class BookController
 {
     /**
      * BookController constructor.
@@ -24,7 +25,9 @@ class BookController
      * @param BookServiceInterface $bookService The service instance to be used by the controller.
      * This service handles the business logic related to books.
      */
-    public function __construct(private BookServiceInterface $bookService) {}
+    public function __construct(private BookServiceInterface $bookService)
+    {
+    }
 
     /**
      * Displays the list of books associated with the specified author ID.
@@ -33,17 +36,14 @@ class BookController
      * It then generates the HTML content to display these books using the `authorBooks.php` view.
      *
      * @param HttpRequest $request The HTTP request object containing information about the current request.
-     * @param int $authorId The ID of the author whose books are to be displayed.
      * @return HtmlResponse An HTTP response containing the HTML content for displaying the books.
      * The content is generated from the `authorBooks.php` view file.
      * @throws Exception
      */
-    public function showBooksByAuthor(HttpRequest $request, int $authorId): HtmlResponse
+    public function showBooksByAuthor(HttpRequest $request): HtmlResponse
     {
-        $response = new HtmlResponse(200);
-        $response->setBodyFromFile(__DIR__ . '/../Views/authorBooks.php',
-            ['authorId' => $authorId]);
-        return $response;
+        $authorId = (int)$request->getQueryParams()['id'] ?? 0;
+        return HtmlResponse::fromView(__DIR__ . '/../Views/authorBooks.php', ['authorId' => $authorId]);
     }
 
     /**
@@ -53,20 +53,13 @@ class BookController
      * and formats them into a JSON response.
      *
      * @param HttpRequest $request The HTTP request object containing information about the current request.
-     * @param int $authorId The ID of the author whose books are to be retrieved.
      * @return JsonResponse A JSON response containing the list of books, each with an ID, title, and year.
      */
-    public function getBooksByAuthor(HttpRequest $request, int $authorId): JsonResponse
+    public function getBooksByAuthor(HttpRequest $request): JsonResponse
     {
+        $authorId = (int)$request->getQueryParams()['authorId'] ?? 0;
         $books = $this->bookService->getBooksByAuthorId($authorId);
-        $bookList = [];
-        foreach ($books as $book) {
-            $bookList[] = [
-                'id' => $book->getId(),
-                'title' => $book->getTitle(),
-                'year' => $book->getYear()
-            ];
-        }
+        $bookList = array_map(fn($book) => $book->toArray(), $books);
 
         return new JsonResponse(['books' => $bookList]);
     }
@@ -78,24 +71,21 @@ class BookController
      * a new book using the book service. If the input data is invalid, it returns an error response.
      *
      * @param HttpRequest $request The HTTP request object containing the JSON data for the new book.
-     * @param int $authorId The ID of the author to whom the book will be associated.
      * @return JsonResponse A JSON response containing the created book's details or an error message.
      */
-    public function addBook(HttpRequest $request, int $authorId): JsonResponse
+    public function addBook(HttpRequest $request): JsonResponse
     {
-        $data = json_decode($request->getBody(), true);
-        if (empty($data['title'])) {
-            return new JsonResponse(['error' => 'Book title cannot be empty.'], 400);
+        $authorId = (int)$request->getQueryParams()['authorId'] ?? 0;
+        $data = $request->getParsedBody();
+        $title = $data['title'] ?? '';
+        $year = isset($data['year']) ? (int)$data['year'] : 0;
+        try {
+            $book = new Book(0, $title, $year, $authorId);
+            $this->bookService->createBook($book->getTitle(), $book->getYear(), $book->getAuthorId());
+            return new JsonResponse($book->toArray(), 201);
+        } catch (InvalidArgumentException $e) {
+            return new JsonResponse(['error' => $e->getMessage()], 400);
         }
-        $title = $data['title'];
-        $year = (int) $data['year'];
-        if ($year <= 0) {
-            return new JsonResponse(['error' => 'Please enter a valid year.'], 400);
-        }
-        $book = $this->bookService->createBook($title, $year, $authorId);
-        $bookArray = $book->toArray();
-
-        return new JsonResponse($bookArray, 201);
     }
 
     /**
@@ -106,11 +96,11 @@ class BookController
      * as per the `204 No Content` status code convention.
      *
      * @param HttpRequest $request The HTTP request object. (Not used in this method, but included for consistency.)
-     * @param int $bookId The ID of the book to be deleted.
      * @return JsonResponse A JSON response with an empty body and a 204 No Content status code.
      */
-    public function deleteBook(HttpRequest $request, int $bookId): JsonResponse
+    public function deleteBook(HttpRequest $request): JsonResponse
     {
+        $bookId = (int)$request->getQueryParams()['bookId'];
         $this->bookService->deleteBook($bookId);
 
         return new JsonResponse([], 204);

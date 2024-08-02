@@ -38,7 +38,7 @@ class HttpRequest
      * Initializes the HttpRequest object by retrieving and setting the HTTP request method,
      * * URI, query parameters, and POST data. These values are fetched from the global `$_SERVER`,
      * * `$_GET`, and `$_POST` super globals using the `GlobalWrapper` class.
- */
+     */
     public function __construct()
     {
         $this->method = GlobalWrapper::getInstanceForType('server')->get('REQUEST_METHOD');
@@ -114,5 +114,22 @@ class HttpRequest
     public function post(string $key, mixed $default = null): mixed
     {
         return $this->postData[$key] ?? $default;
+    }
+    
+    /**
+     * Gets and decodes the JSON body of the request.
+     *
+     * @return array The parsed JSON body as an associative array.
+     */
+    public function getParsedBody(): array
+    {
+        $body = file_get_contents('php://input');
+        $data = json_decode($body, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return [];
+        }
+
+        return $data ?? [];
     }
 }

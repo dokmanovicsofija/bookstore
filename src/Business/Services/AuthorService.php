@@ -2,12 +2,10 @@
 
 namespace Bookstore\Business\Services;
 
+use Bookstore\Business\Domain\AuthorDomainModel;
 use Bookstore\Business\Interfaces\AuthorRepositoryInterface;
 use Bookstore\Business\Interfaces\AuthorServiceInterface;
 use Bookstore\Business\Interfaces\BookRepositoryInterface;
-use Bookstore\Presentation\Models\Author;
-
-require_once 'autoload.php';
 
 /**
  * Class AuthorService
@@ -28,7 +26,7 @@ class AuthorService implements AuthorServiceInterface
     /**
      * Retrieves all authors from the repository.
      *
-     * @return Author[] An array of Author objects.
+     * @return AuthorDomainModel[] An array of Author objects.
      */
     public function getAllAuthors(): array
     {
@@ -39,9 +37,9 @@ class AuthorService implements AuthorServiceInterface
      * Retrieves an author by their ID.
      *
      * @param int $id The ID of the author to retrieve.
-     * @return Author|null The Author object if found, or null if not found.
+     * @return AuthorDomainModel|null The Author object if found, or null if not found.
      */
-    public function getAuthorById(int $id): ?Author
+    public function getAuthorById(int $id): ?AuthorDomainModel
     {
         return $this->authorRepository->getById($id);
     }
@@ -83,22 +81,6 @@ class AuthorService implements AuthorServiceInterface
     public function deleteAuthor(int $id): void
     {
         $this->bookRepository->deleteBooksByAuthorId($id);
-
         $this->authorRepository->delete($id);
-
-    }
-
-    /**
-     * Gets the count of books associated with a specific author.
-     *
-     * This method retrieves the number of books that are linked to the given author's ID
-     * by calling the corresponding method in the book repository.
-     *
-     * @param int $authorId The ID of the author whose book count is to be retrieved.
-     * @return int The number of books associated with the specified author.
-     */
-    public function getBookCountByAuthorId(int $authorId): int
-    {
-        return $this->bookRepository->countBooksByAuthorId($authorId);
     }
 }

@@ -9,7 +9,7 @@ namespace Bookstore\Infrastructure\Utility;
  * through a unified interface. This class allows interacting with different global variables based on the type provided
  * during instantiation. It supports setting, getting, removing values, and destroying the session.
  */
-class GlobalWrapper extends  SingletonAbstract
+class GlobalWrapper extends SingletonAbstract
 {
     /**
      * @var array An array of instances for each type.
@@ -53,7 +53,7 @@ class GlobalWrapper extends  SingletonAbstract
      * @param string $key The key under which the value will be stored.
      * @param mixed $value The value to store.
      */
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         switch ($this->type) {
             case 'session':
@@ -126,7 +126,7 @@ class GlobalWrapper extends  SingletonAbstract
      */
     public function destroySession(): void
     {
-        if ($this->type === 'SESSION') {
+        if ($this->type === 'session') {
             session_destroy();
             $_SESSION = [];
         } else {

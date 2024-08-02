@@ -10,6 +10,20 @@ namespace Bookstore\Infrastructure\Response;
 abstract class AbstractHttpResponse
 {
     /**
+     * HttpResponse constructor.
+     * Initializes the response with a default status code and empty headers.
+     *
+     * @param int $statusCode HTTP status code (e.g., 200, 404).
+     * @param array $headers Headers to be sent with the response.
+     */
+    public function __construct(
+        protected int   $statusCode = 200,
+        protected array $headers = []
+    )
+    {
+    }
+
+    /**
      * Sets the HTTP status code for the response.
      *
      * @param int $statusCode The HTTP status code to set.

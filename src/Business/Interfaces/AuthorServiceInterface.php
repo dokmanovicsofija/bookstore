@@ -1,7 +1,7 @@
 <?php
 
 namespace Bookstore\Business\Interfaces;
-use Bookstore\Presentation\Models\Author;
+use Bookstore\Business\Domain\AuthorDomainModel;
 
 /**
  * Interface AuthorServiceInterface
@@ -13,7 +13,7 @@ interface AuthorServiceInterface
     /**
      * Returns all authors in the system.
      *
-     * @return Author[] An array of Author objects.
+     * @return AuthorDomainModel[] An array of Author objects.
      */
     public function getAllAuthors(): array;
 
@@ -21,9 +21,9 @@ interface AuthorServiceInterface
      * Returns an author with the specified ID.
      *
      * @param int $id The ID of the author.
-     * @return Author|null The Author object if found, or null if not.
+     * @return AuthorDomainModel|null The Author object if found, or null if not.
      */
-    public function getAuthorById(int $id): ?Author;
+    public function getAuthorById(int $id): ?AuthorDomainModel;
 
     /**
      * Creates a new author.

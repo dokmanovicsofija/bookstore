@@ -19,7 +19,9 @@ abstract class SingletonAbstract
      *
      * The constructor is protected to ensure that instances cannot be created directly from outside the class.
      */
-    protected function __construct(){}
+    protected function __construct()
+    {
+    }
 
     /**
      * Returns the single instance of the class.
@@ -42,12 +44,16 @@ abstract class SingletonAbstract
      *
      * This method is private to prevent cloning of the singleton instance.
      */
-    private function __clone(){}
+    private function __clone()
+    {
+    }
 
     /**
      * Prevents unserialization of the object.
      *
      * This method is private to prevent unserialization of the singleton instance.
      */
-    public function __wakeup(){}
+    public function __wakeup()
+    {
+    }
 }

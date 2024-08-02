@@ -1,7 +1,7 @@
 <?php
 
 namespace Bookstore\Business\Interfaces;
-use Bookstore\Presentation\Models\Author;
+use Bookstore\Business\Domain\AuthorDomainModel;
 
 /**
  * Interface AuthorRepositoryInterface
@@ -13,7 +13,7 @@ interface AuthorRepositoryInterface
     /**
      * Retrieves all authors.
      *
-     * @return Author[] An array of Author objects.
+     * @return AuthorDomainModel[] An array of Author objects.
      */
     public function getAll(): array;
 
@@ -21,18 +21,18 @@ interface AuthorRepositoryInterface
      * Retrieves an author by their ID.
      *
      * @param int $id The ID of the author to retrieve.
-     * @return Author|null The Author object if found, or null if not found.
+     * @return AuthorDomainModel|null The Author object if found, or null if not found.
      */
-    public function getById(int $id): ?Author;
+    public function getById(int $id): ?AuthorDomainModel;
 
     /**
      * Creates a new author with the given first and last names.
      *
      * @param string $firstName The first name of the new author.
      * @param string $lastName The last name of the new author.
-     * @return Author The created Author object.
+     * @return AuthorDomainModel The created Author object.
      */
-    public function create(string $firstName, string $lastName): Author;
+    public function create(string $firstName, string $lastName): AuthorDomainModel;
 
     /**
      * Updates the information of an existing author.

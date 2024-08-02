@@ -1,8 +1,8 @@
 <?php
 
-namespace src\Infrastructure\Response;
+namespace Bookstore\Infrastructure\Response;
 
-use Exception;
+use AllowDynamicProperties;
 
 /**
  * Class HtmlResponse
@@ -10,17 +10,14 @@ use Exception;
  * Represents a Html response. It provides methods to set the status code, headers, and body of the response
  * and to send the response to the client.
  */
-class HtmlResponse extends AbstractHttpResponse
+#[AllowDynamicProperties] class HtmlResponse extends AbstractHttpResponse
 {
-    /**
-     * HtmlResponse constructor.
-     *
-     * @param int $statusCode The HTTP status code for the response (default is 200).
-     * @param string $body The body content of the response (default is an empty string).
-     * @param array $headers An associative array of headers to include in the response (default is an empty array).
-     */
-    public function __construct(private int $statusCode = 200, private string $body = '', private array $headers = [])
+    protected string $body;
+
+    public function __construct(int $statusCode = 200, array $headers = [], string $body = '')
     {
+        parent::__construct($statusCode, $headers);
+        $this->body = $body;
     }
 
     /**
@@ -55,22 +52,25 @@ class HtmlResponse extends AbstractHttpResponse
     }
 
     /**
-     * Load content from an HTML file and set it as the body of the response.
+     * Creates an HtmlResponse instance from a view file.
      *
-     * @param string $filePath The path to the HTML file.
-     * @param array $data An associative array of data to be used in the view (optional).
-     * @throws Exception
+     * This static method renders a view file using the provided data and returns
+     * an HtmlResponse object with the rendered content. The view file is included
+     * and its output is captured and used as the response body.
+     *
+     * @param string $viewFile The path to the view file to be included.
+     * @param array $data An associative array of data to be made available in the view.
+     * @param int $statusCode The HTTP status code for the response (default is 200).
+     * @param array $headers An associative array of HTTP headers to include in the response (default is an empty array).
+     * @return HtmlResponse An HtmlResponse instance with the rendered view content, status code, and headers.
      */
-    public function setBodyFromFile(string $filePath, array $data = []): void
+    public static function fromView(string $viewFile, array $data = [], int $statusCode = 200, array $headers = []): HtmlResponse
     {
-        if (file_exists($filePath)) {
-            ob_start();
-            extract($data);
-            include $filePath;
-            $this->body = ob_get_clean();
-        } else {
-            throw new Exception("File not found: $filePath");
-        }
+        extract($data);
+        ob_start();
+        include $viewFile;
+        $content = ob_get_clean();
+        return new self($statusCode, $headers, $content);
     }
 
     /**

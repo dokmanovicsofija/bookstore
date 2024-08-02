@@ -1,7 +1,7 @@
 <?php
 
 namespace Bookstore\Business\Interfaces;
-use Bookstore\Presentation\Models\Book;
+use Bookstore\Business\Domain\BookDomainModel;
 
 /**
  * Interface for managing book services.
@@ -11,7 +11,7 @@ interface BookServiceInterface
     /**
      * Returns all books.
      *
-     * @return Book[] An array of Book objects.
+     * @return BookDomainModel[] An array of Book objects.
      */
     public function getAllBooks(): array;
 
@@ -19,23 +19,15 @@ interface BookServiceInterface
      * Returns a book with a specific ID.
      *
      * @param int $id The unique identifier of the book.
-     * @return Book|null The Book object if found, null otherwise.
+     * @return BookDomainModel|null The Book object if found, null otherwise.
      */
-    public function getBookById(int $id): ?Book;
-
-    /**
-     * Returns the count of books that belong to a specific author.
-     *
-     * @param int $authorId The unique identifier of the author.
-     * @return int The count of books belonging to the specified author.
-     */
-    public function countBooksByAuthorId(int $authorId): int;
+    public function getBookById(int $id): ?BookDomainModel;
 
     /**
      * Retrieves books by author ID.
      *
      * @param int $authorId The ID of the author whose books to retrieve.
-     * @return Book[] An array of Book objects.
+     * @return BookDomainModel[] An array of Book objects.
      */
     public function getBooksByAuthorId(int $authorId): array;
 
@@ -46,9 +38,9 @@ interface BookServiceInterface
      * @param int $year The publication year of the book.
      * @param int $authorId The ID of the author who wrote the book.
      *
-     * @return Book
+     * @return BookDomainModel
      */
-    public function createBook(string $title, int $year, int $authorId): Book;
+    public function createBook(string $title, int $year, int $authorId): BookDomainModel;
 
     /**
      * Deletes a book based on its ID.

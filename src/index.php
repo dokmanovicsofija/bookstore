@@ -39,45 +39,39 @@ switch ($baseUri) {
         $response = $authorController->create($request);
         break;
     case '/editAuthor':
-        $id = (int)$request->getQueryParams()['id'] ?? 0;
         if ($request->getMethod() == 'POST') {
-            $response = $authorController->update($request, $id);
+            $response = $authorController->update($request);
             break;
         }
 
-        $response = $authorController->edit($request, $id);
+        $response = $authorController->edit($request);
         break;
     case '/deleteAuthor':
-        $id = (int)$request->getQueryParams()['id'] ?? 0;
-        $response = $authorController->delete($request, $id);
+        $response = $authorController->delete($request);
         break;
     case '/authorBooks':
-        $id = (int)$request->getQueryParams()['id'] ?? 0;
-        $response = $bookController->showBooksByAuthor($request, $id);
+        $response = $bookController->showBooksByAuthor($request);
         break;
     case '/books':
         if ($request->getMethod() === 'GET') {
-            $id = (int)$request->getQueryParams()['authorId'] ?? 0;
-            $response = $bookController->getBooksByAuthor($request, $id);
+            $response = $bookController->getBooksByAuthor($request);
             break;
         }
 
         if ($request->getMethod() === 'POST') {
-            $id = (int)$request->getQueryParams()['authorId'] ?? 0;
-            $response = $bookController->addBook($request, $id);
+            $response = $bookController->addBook($request);
             break;
         }
 
         break;
     case '/books/delete':
         if ($request->getMethod() === 'DELETE') {
-            $bookId = (int)$request->getQueryParams()['bookId'];
-            $response = $bookController->deleteBook($request, $bookId);
+            $response = $bookController->deleteBook($request);
         }
 
         break;
     default:
-        $response = new HtmlResponse(404, 'Page not found');
+        $response = new HtmlResponse(404, [], 'Page not found');
         break;
 }
 

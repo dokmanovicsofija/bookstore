@@ -4,7 +4,7 @@ namespace Bookstore\Data\Repositories\SQL;
 
 use Bookstore\Business\Interfaces\AuthorRepositoryInterface;
 use Bookstore\Infrastructure\DatabaseConnection;
-use Bookstore\Presentation\Models\Author;
+use Bookstore\Business\Domain\AuthorDomainModel;
 use PDO;
 
 /**
@@ -24,27 +24,40 @@ class SqlAuthorRepository implements AuthorRepositoryInterface
     /**
      * Retrieves all authors.
      *
-     * @return Author[] An array of Author objects.
+     * @return AuthorDomainModel[] An array of Author objects.
      */
     public function getAll(): array
     {
-        $stmt = $this->connection->query("SELECT * FROM Author");
+        $sql = "
+        SELECT a.id AS id, a.firstName AS firstName, a.lastName AS lastName, COUNT(b.id) AS bookCount
+        FROM Author a
+        LEFT JOIN Book b ON a.id = b.authorId
+        GROUP BY a.id, a.firstName, a.lastName
+    ";
+
+        $stmt = $this->connection->query($sql);
         $authors = $stmt->fetchAll();
-        return array_map(fn($author) => new Author($author['id'], $author['firstName'], $author['lastName']), $authors);
+
+        return array_map(fn($author) => (new AuthorDomainModel(
+            $author['id'],
+            $author['firstName'],
+            $author['lastName'],
+            $author['bookCount']
+        )), $authors);
     }
 
     /**
      * Retrieves an author by their ID.
      *
      * @param int $id The ID of the author to retrieve.
-     * @return Author|null The Author object if found, or null if not found.
+     * @return AuthorDomainModel|null The Author object if found, or null if not found.
      */
-    public function getById(int $id): ?Author
+    public function getById(int $id): ?AuthorDomainModel
     {
         $stmt = $this->connection->prepare("SELECT * FROM Author WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $author = $stmt->fetch();
-        return $author ? new Author($author['id'], $author['firstName'], $author['lastName']) : null;
+        return $author ? new AuthorDomainModel($author['id'], $author['firstName'], $author['lastName']) : null;
     }
 
     /**
@@ -52,14 +65,14 @@ class SqlAuthorRepository implements AuthorRepositoryInterface
      *
      * @param string $firstName The first name of the new author.
      * @param string $lastName The last name of the new author.
-     * @return Author The created Author object.
+     * @return AuthorDomainModel The created Author object.
      */
-    public function create(string $firstName, string $lastName): Author
+    public function create(string $firstName, string $lastName): AuthorDomainModel
     {
         $stmt = $this->connection->prepare("INSERT INTO Author (firstName, lastName) VALUES (:firstName, :lastName)");
         $stmt->execute(['firstName' => $firstName, 'lastName' => $lastName]);
         $id = $this->connection->lastInsertId();
-        return new Author($id, $firstName, $lastName);
+        return new AuthorDomainModel($id, $firstName, $lastName);
     }
 
     /**

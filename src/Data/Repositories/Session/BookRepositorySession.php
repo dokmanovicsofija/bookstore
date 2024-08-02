@@ -19,19 +19,14 @@ class BookRepositorySession implements BookRepositoryInterface
     private array $books;
 
     /**
-     * @var SessionManager The session manager instance.
-     */
-    private SessionManager $sessionManager;
-
-    /**
      * BookRepositorySession constructor.
      *
      * Initializes the session and loads books from the session.
      */
     public function __construct()
     {
-        $this->sessionManager = SessionManager::getInstance();
-        $books = $this->sessionManager->get('books');
+        $sessionManager = SessionManager::getInstance();
+        $books = $sessionManager ->get('books');
 
         if (!$books) {
             $defaultBooks = [
@@ -40,7 +35,7 @@ class BookRepositorySession implements BookRepositoryInterface
                 (new Book(3, 'Book Title 3', 2022, 1))->toArray(),
                 (new Book(4, 'Book Title 4', 2023, 1))->toArray(),
             ];
-            $this->sessionManager->set('books', $defaultBooks);
+            $sessionManager->set('books', $defaultBooks);
             $books = $defaultBooks;
         }
 
@@ -210,7 +205,7 @@ class BookRepositorySession implements BookRepositoryInterface
             return $book->getAuthorId() !== $authorId;
         });
 
-        $this->sessionManager->set('books', array_map(function (Book $book) {
+        SessionManager::getInstance() ->set('books', array_map(function (Book $book) {
             return $book->toArray();
         }, $this->books));
     }
@@ -227,6 +222,6 @@ class BookRepositorySession implements BookRepositoryInterface
             $booksArray[] = $book->toArray();
         }
 
-        $this->sessionManager->set('books', $booksArray);
+        SessionManager::getInstance()->set('books', $booksArray);
     }
 }

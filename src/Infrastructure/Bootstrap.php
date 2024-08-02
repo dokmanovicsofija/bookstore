@@ -87,5 +87,4 @@ class Bootstrap
             ServiceRegistry::get(BookServiceInterface::class)
         ));
     }
-
 }
