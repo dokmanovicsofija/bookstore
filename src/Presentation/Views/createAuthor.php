@@ -12,11 +12,13 @@
     <form action="/createAuthor" method="POST">
         <label for="first_name">First name</label>
         <input type="text" id="first_name" name="first_name" value="<?php echo $firstName; ?>">
-        <span class="error"><?php echo htmlspecialchars($firstNameError); ?></span>
+        <span class="error"><?php if ($firstNameError) {
+                echo $firstNameError;
+            }; ?></span>
 
         <label for="last_name">Last name</label>
         <input type="text" id="last_name" name="last_name" value="<?php echo $lastName; ?>">
-        <span class="error"><?php echo htmlspecialchars($lastNameError); ?></span>
+        <span class="error"><?php if($lastNameError) {echo $lastNameError;} ?></span>
 
         <button type="submit">Save</button>
     </form>

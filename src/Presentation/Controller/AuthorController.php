@@ -47,7 +47,10 @@ readonly class AuthorController
      */
     public function create(HttpRequest $request): HtmlResponse
     {
-        return HtmlResponse::fromView(__DIR__ . '/../Views/createAuthor.php');
+        $firstNameError =  '';
+        $lastNameError = '';
+        $firstName = ''; $lastName = '';
+        return HtmlResponse::fromView(__DIR__ . '/../Views/createAuthor.php', ['firstName' => $firstName, 'lastName'=> $lastName, 'firstNameError' => $firstNameError, 'lastNameError' => $lastNameError]);
     }
 
     /**
@@ -72,6 +75,7 @@ readonly class AuthorController
             $lastNameError = $errors['lastName'] ?? '';
 
             return HtmlResponse::fromView(__DIR__ . '/../Views/createAuthor.php', [
+                'firstName' => $firstName, 'lastName'=> $lastName,
                 'firstNameError' => $firstNameError,
                 'lastNameError' => $lastNameError
             ]);
@@ -87,10 +91,12 @@ readonly class AuthorController
      */
     public function edit(HttpRequest $request): HtmlResponse
     {
+        $firstNameError =  '';
+        $lastNameError = '';
         $id = (int)$request->getQueryParams()['id'] ?? 0;
         $author = $this->authorService->getAuthorById($id);
 
-        return HtmlResponse::fromView(__DIR__ . '/../Views/editAuthor.php', ['author' => $author]);
+        return HtmlResponse::fromView(__DIR__ . '/../Views/editAuthor.php', ['author' => $author, 'firstNameError' => $firstNameError, 'lastNameError' => $lastNameError]);
     }
 
     /**
