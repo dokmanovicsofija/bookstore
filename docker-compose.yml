@@ -10,7 +10,7 @@ services:
       - .:/var/www/html
     environment:
       - DB_HOST=db
-      - DB_PORT= ${DB_PORT}
+      - DB_PORT=${DB_PORT}
       - DB_DATABASE=${DB_DATABASE}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
@@ -23,9 +23,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3307:3306"
     volumes:
       - db-data:/var/lib/mysql
-      - ./scripts:/docker-entrypoint-initdb.d/seedData2.sql
+      - ./scripts/seedData3.sql:/docker-entrypoint-initdb.d/seedData3.sql
 
 volumes:
   db-data:

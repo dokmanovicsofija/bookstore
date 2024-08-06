@@ -33,13 +33,18 @@ Ovaj projekat koristi Docker i Docker Compose za pokretanje aplikacije i baze po
    U istom direktorijumu gde se nalazi vaš `docker-compose.yaml` fajl, kreirajte `.env` fajl sa sledećim sadržajem:
 
     ```env
-    DB_HOST=db
-    DB_PORT=3306
-    DB_DATABASE=bookstore
-    DB_USERNAME=root
-    DB_PASSWORD=root
-    MYSQL_ROOT_PASSWORD=root
-    MYSQL_DATABASE=bookstore
+    DB_HOST=127.0.0.1
+   DB_NAME=bookstore
+   DB_USER=root
+   DB_PASS=root
+   DB_CHARSET=utf8mb4
+   DB_ROOT_PASSWORD=root
+   DB_PORT=3306
+   DB_DATABASE=bookstore
+   DB_USERNAME=root
+   DB_PASSWORD=root
+   MYSQL_ROOT_PASSWORD=root
+   MYSQL_DATABASE=bookstore
     ```
 
    Ovaj fajl definiše promenljive okruženja koje će biti korišćene u `docker-compose.yaml` fajlu.
@@ -58,7 +63,7 @@ Ovaj projekat koristi Docker i Docker Compose za pokretanje aplikacije i baze po
         ports:
           - "8081:80"
         environment:
-          - DB_HOST=${DB_HOST}
+          - DB_HOST=db
           - DB_PORT=${DB_PORT}
           - DB_DATABASE=${DB_DATABASE}
           - DB_USERNAME=${DB_USERNAME}
@@ -74,11 +79,10 @@ Ovaj projekat koristi Docker i Docker Compose za pokretanje aplikacije i baze po
           MYSQL_DATABASE: ${MYSQL_DATABASE}
         volumes:
           - db-data:/var/lib/mysql
-          - ./scripts:/docker-entrypoint-initdb.d/seedData2.sql
-
-    volumes:
-      db-data:
-    ```
+          - ./scripts/seedData3.sql:/docker-entrypoint-initdb.d/seedData3.sql
+   volumes:
+    db-data:
+  ```
 
 ## Preuzimanje Docker Slike sa Docker Hub-a
 
